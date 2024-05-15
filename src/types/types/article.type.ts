@@ -1,7 +1,5 @@
-import { Types } from "mongoose";
-
 export type ArticleTypes = {
-  _id: Types.ObjectId;
+  _id: string;
   imgUrl: string;
   title: string;
   text: string;
