@@ -1,12 +1,15 @@
 "use client";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { usePathname } from "next/navigation";
 
-import styles from "./header.module.scss";
 import { Icon, Logo, UIButton } from "@/components";
 import { IconEnum, LinksEnum } from "@/types";
-import { Buttons, Menu } from "./components";
+import { useModal } from "@/hooks";
+
+import { Buttons, Menu } from "@/app/ui";
+
 import { HeaderProps } from "./Header.type";
+import styles from "./header.module.scss";
 
 const links = [
   { label: "News", href: LinksEnum.NEWS },
@@ -15,9 +18,13 @@ const links = [
 ];
 
 const Header: FC<HeaderProps> = ({ user }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const modalProps = useModal();
   const pathName = usePathname();
 
+  const toggleModal = () => {
+    if (!modalProps.active) return modalProps.setActive(true);
+    modalProps.close();
+  };
   return (
     <header className={styles["header"]}>
       <div className={`container ${styles["header__wrapper"]}`}>
@@ -43,9 +50,9 @@ const Header: FC<HeaderProps> = ({ user }) => {
             <Buttons user={user} />
           </div>
           <div className={styles["menu"]}>
-            <UIButton variant="text" onClick={() => setIsOpen(!isOpen)}>
+            <UIButton variant="text" onClick={toggleModal}>
               <Icon
-                icon={isOpen ? IconEnum.CROSS : IconEnum.MENU}
+                icon={modalProps.active ? IconEnum.CROSS : IconEnum.MENU}
                 size={24}
                 className={styles["icon"]}
               />
@@ -53,13 +60,7 @@ const Header: FC<HeaderProps> = ({ user }) => {
           </div>
         </div>
       </div>
-      <Menu
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        links={links}
-        pathName={pathName}
-        user={user}
-      />
+      <Menu {...modalProps} links={links} pathName={pathName} user={user} />
     </header>
   );
 };

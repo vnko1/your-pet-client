@@ -1,9 +1,10 @@
+import { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FC } from "react";
+
 import { LinksEnum } from "@/types";
-import { ILogo } from "./logo.type";
-import styles from "./logo.module.scss";
+import { ILogo } from "./Logo.type";
+import styles from "./Logo.module.scss";
 
 const Logo: FC<ILogo> = ({ classNames }) => {
   return (

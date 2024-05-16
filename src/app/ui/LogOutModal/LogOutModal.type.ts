@@ -2,6 +2,8 @@ import { Dispatch, SetStateAction } from "react";
 
 export type LogOutModalProps = {
   classNames?: string;
-  isActive: boolean;
-  setIsActive: Dispatch<SetStateAction<boolean>>;
+  active: boolean;
+  visible: boolean;
+  close: () => void;
+  setVisible: Dispatch<SetStateAction<boolean>>;
 };

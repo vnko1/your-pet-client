@@ -1,10 +1,11 @@
 "use client";
 import { ChangeEvent, FC } from "react";
-import { SearchFieldProps } from "./searchField.type";
 
-import styles from "./searchField.module.scss";
 import { Icon } from "@/components";
 import { IconEnum } from "@/types";
+
+import { SearchFieldProps } from "./SearchField.type";
+import styles from "./SearchField.module.scss";
 
 const SearchField: FC<SearchFieldProps> = ({
   classNames,

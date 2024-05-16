@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useFormStatus } from "react-dom";
 import cn from "classnames";
 
-import { IUIButton } from "./uibutton.type";
-import styles from "./uibutton.module.scss";
+import { IUIButton } from "./UiButton.type";
+import styles from "./UiButton.module.scss";
 
 import { Icon } from "@/components";
 

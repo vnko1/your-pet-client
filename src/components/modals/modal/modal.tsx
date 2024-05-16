@@ -1,44 +1,44 @@
 "use client";
-import React, { FC, MouseEvent, useEffect, useState } from "react";
+import React, { FC, MouseEvent, useEffect } from "react";
 import { createPortal } from "react-dom";
 import cn from "classnames";
+
 import { IconEnum } from "@/types";
-import { UIButton } from "@/components/buttons";
-import { ModalProps } from "./modal.type";
-import styles from "./modal.module.scss";
+import { UIButton } from "@/components";
+
+import { ModalProps } from "./Modal.type";
+import styles from "./Modal.module.scss";
+import { useSwipe } from "@/hooks";
 
 const Modal: FC<ModalProps> = ({
   children,
   active,
+  visible,
   classNames,
-  setActive,
-  eventHandler,
+  backdropClassNames,
+  transitionClassNames,
+  swipe = "left",
+  disableScroll = false,
+  setVisible,
+  close,
+  ...props
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  const closeModal = () => {
-    setIsVisible(false);
-    eventHandler && eventHandler();
-
-    setTimeout(() => {
-      setActive(false);
-    }, 350);
-  };
+  useSwipe({ [swipe]: close, ...props });
 
   useEffect(() => {
     if (active) {
-      setIsVisible(true);
-      document.body.classList.add(styles["no-scroll"]);
+      setVisible(true);
+      disableScroll && document.body.classList.add(styles["no-scroll"]);
     }
     return () => {
       document.body.classList.remove(styles["no-scroll"]);
     };
-  }, [active]);
+  }, [active, disableScroll, setVisible]);
 
   useEffect(() => {
     const handlePressESC = (event: { code: string }) => {
       if (event.code === "Escape") {
-        closeModal();
+        close();
       }
     };
     window.addEventListener("keydown", handlePressESC);
@@ -46,19 +46,23 @@ const Modal: FC<ModalProps> = ({
     return () => {
       window.removeEventListener("keydown", handlePressESC);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [close]);
 
   const onHandleBackDropClick = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     if (event.target === event.currentTarget) {
-      closeModal();
+      close();
     }
   };
 
-  const backDropClassNames = cn(styles["backdrop"], {
-    [styles["active"]]: isVisible,
-  });
+  const backDropClassNames = cn(
+    styles["backdrop"],
+    {
+      [styles["active"]]: visible,
+      [transitionClassNames || ""]: visible,
+    },
+    backdropClassNames
+  );
 
   const modalClassNames = cn(styles["modal"], classNames);
 
@@ -67,7 +71,7 @@ const Modal: FC<ModalProps> = ({
       <div className={modalClassNames}>
         <div className={styles["button-wrapper"]}>
           <UIButton
-            onClick={closeModal}
+            onClick={close}
             variant="text"
             icon={IconEnum.CROSS}
             color="accent"

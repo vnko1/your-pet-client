@@ -2,30 +2,23 @@
 import React, { FC } from "react";
 import { useRouter } from "next/navigation";
 
-import { Modal, UIButton } from "@/components";
 import { IconEnum } from "@/types";
+import { Modal, UIButton } from "@/components";
 // import { signOut } from "@/lib/actions";
+
 import { LogOutModalProps } from "./LogOutModal.type";
 import styles from "./logOutModal.module.scss";
 
-const LogOutModal: FC<LogOutModalProps> = ({
-  classNames,
-  isActive,
-  setIsActive,
-}) => {
+const LogOutModal: FC<LogOutModalProps> = ({ classNames, ...props }) => {
   const router = useRouter();
 
   const onHandleClick = async () => {
-    setIsActive(false);
+    props.close();
     // await signOut();
     router.refresh();
   };
   return (
-    <Modal
-      classNames={`${styles["modal"]} ${classNames}`}
-      active={isActive}
-      setActive={setIsActive}
-    >
+    <Modal classNames={`${styles["modal"]} ${classNames}`} {...props}>
       <div className={styles["modal__content"]}>
         <h2 className={styles["title"]}>Already leaving?</h2>
         <div className={styles["modal__buttons"]}>
@@ -33,7 +26,7 @@ const LogOutModal: FC<LogOutModalProps> = ({
             variant="outlined"
             color="secondary"
             fullWidth
-            onClick={() => setIsActive(false)}
+            onClick={props.close}
           >
             Cancel
           </UIButton>
