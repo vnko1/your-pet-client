@@ -9,7 +9,7 @@ import { useModal } from "@/hooks";
 import { Buttons, Menu } from "@/app/ui";
 
 import { HeaderProps } from "./Header.type";
-import styles from "./header.module.scss";
+import styles from "./Header.module.scss";
 
 const links = [
   { label: "News", href: LinksEnum.NEWS },

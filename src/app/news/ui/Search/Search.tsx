@@ -5,7 +5,7 @@ import { useDebouncedCallback } from "use-debounce";
 
 import { SearchField } from "@/components";
 
-import styles from "./search.module.scss";
+import styles from "./Search.module.scss";
 
 const Search: FC = () => {
   const searchParams = useSearchParams();
