@@ -3,12 +3,12 @@ import React, { FC, MouseEvent, useEffect } from "react";
 import { createPortal } from "react-dom";
 import cn from "classnames";
 
+import { useSwipe } from "@/hooks";
 import { IconEnum } from "@/types";
 import { UIButton } from "@/components";
 
 import { ModalProps } from "./Modal.type";
 import styles from "./Modal.module.scss";
-import { useSwipe } from "@/hooks";
 
 const Modal: FC<ModalProps> = ({
   children,

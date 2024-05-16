@@ -41,10 +41,6 @@
     &:focus {
       @apply text-yellow bg-transparent;
     }
-
-    // &:disabled {
-    //   // @apply bg-grey-1010 text-white border-grey-1010;
-    // }
   }
 
   &.btn--text {
@@ -61,10 +57,6 @@
     &:active,
     &:hover {
       @apply bg-yellow text-accentWhite;
-    }
-
-    &:disabled {
-      // @apply bg-grey-1010 text-white border-transparent;
     }
   }
 
@@ -102,15 +94,10 @@
 
   &.btn--secondary.btn--outlined {
     @apply bg-transparent text-blue border-2 border-solid border-blue;
-    // @apply border-2 border-solid border-grey-1000 text-black;
 
     &:active,
     &:hover {
       @apply bg-blue text-accentWhite;
-    }
-
-    &:disabled {
-      // @apply bg-grey-1010 text-white border-transparent;
     }
   }
 

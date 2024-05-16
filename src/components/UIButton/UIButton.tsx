@@ -1,13 +1,13 @@
 "use client";
 import { FC } from "react";
 import Link from "next/link";
-import { useFormStatus } from "react-dom";
 import cn from "classnames";
-
-import { IUIButton } from "./UiButton.type";
-import styles from "./UiButton.module.scss";
+import { useFormStatus } from "react-dom";
 
 import { Icon } from "@/components";
+
+import { IUIButton } from "./UIButton.type";
+import styles from "./UIButton.module.scss";
 
 const UIButton: FC<IUIButton> = ({
   isLoading = false,
@@ -30,6 +30,7 @@ const UIButton: FC<IUIButton> = ({
   ...props
 }) => {
   const { pending } = useFormStatus();
+
   const variantClassName = cn({
     [styles["btn--contained"]]: variant === "contained",
     [styles["btn--outlined"]]: variant === "outlined",

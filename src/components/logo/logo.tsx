@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { LinksEnum } from "@/types";
+
 import { ILogo } from "./Logo.type";
 import styles from "./Logo.module.scss";
 
