@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { Article } from "..";
 
 import { ArticlesProps } from "./Articles.type";
-import styles from "./articles.module.scss";
+import styles from "./Articles.module.scss";
 
 const Articles: FC<ArticlesProps> = async ({ articles }) => {
   return (

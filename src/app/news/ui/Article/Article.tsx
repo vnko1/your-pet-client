@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import Image from "next/image";
 
 import { ArticleProps } from "./Article.type";
-import styles from "./article.module.scss";
+import styles from "./Article.module.scss";
 
 const Article: FC<ArticleProps> = ({
   classNames,
