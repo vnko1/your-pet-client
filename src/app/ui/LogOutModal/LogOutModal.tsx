@@ -9,16 +9,28 @@ import { Modal, UIButton } from "@/components";
 import { LogOutModalProps } from "./LogOutModal.type";
 import styles from "./logOutModal.module.scss";
 
-const LogOutModal: FC<LogOutModalProps> = ({ classNames, ...props }) => {
+const LogOutModal: FC<LogOutModalProps> = ({
+  classNames,
+  active,
+  setVisible,
+  visible,
+  close,
+}) => {
   const router = useRouter();
 
   const onHandleClick = async () => {
-    props.close();
+    close();
     // await signOut();
     router.refresh();
   };
   return (
-    <Modal classNames={`${styles["modal"]} ${classNames}`} {...props}>
+    <Modal
+      active={active}
+      visible={visible}
+      setVisible={setVisible}
+      close={close}
+      classNames={`${styles["modal"]} ${classNames}`}
+    >
       <div className={styles["modal__content"]}>
         <h2 className={styles["title"]}>Already leaving?</h2>
         <div className={styles["modal__buttons"]}>
@@ -26,7 +38,7 @@ const LogOutModal: FC<LogOutModalProps> = ({ classNames, ...props }) => {
             variant="outlined"
             color="secondary"
             fullWidth
-            onClick={props.close}
+            onClick={close}
           >
             Cancel
           </UIButton>

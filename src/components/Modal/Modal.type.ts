@@ -12,4 +12,5 @@ export type ModalProps = {
   swipe?: "left" | "right";
   close: () => void;
   setVisible: Dispatch<SetStateAction<boolean>>;
+  renderCrossButton?: boolean;
 } & Partial<UseSwipeProps>;

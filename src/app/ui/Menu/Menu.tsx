@@ -1,27 +1,22 @@
 import { FC } from "react";
 
-import { UIButton, Menu as Modal } from "@/components";
+import { UIButton, Modal } from "@/components";
+
 import Buttons from "../Buttons/Buttons";
+
 import { IMenu } from "./Menu.type";
 import styles from "./Menu.module.scss";
 
-const transitionClassNames = {
-  enter: styles["modal-enter"],
-  enterActive: styles["modal-enter-active"],
-  exit: styles["modal-exit"],
-  exitActive: styles["modal-exit-active"],
-};
-
-const Menu: FC<IMenu> = ({ isOpen, links, pathName, user, setIsOpen }) => {
+const Menu: FC<IMenu> = ({ links, pathName, user, ...props }) => {
   return (
     <Modal
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-      backdropClassName={styles["modal"]}
-      bodyClassName={styles["modal__body"]}
-      transitionClassName={transitionClassNames}
-      enableSwipe
+      {...props}
+      backdropClassNames={styles["modal"]}
+      classNames={styles["modal__body"]}
+      transitionClassNames={styles["active"]}
       enableSwipeUpToScreen={1279}
+      enableSwipe
+      disableScroll
     >
       <div className={styles["menu__auth"]}>
         <Buttons user={user} />
@@ -32,7 +27,7 @@ const Menu: FC<IMenu> = ({ isOpen, links, pathName, user, setIsOpen }) => {
             <li key={index} className="text-center">
               <UIButton
                 href={link.href}
-                onClick={() => setIsOpen(false)}
+                onClick={() => props.setActive(false)}
                 variant="text"
                 size="large"
                 isCurrent={link.href === pathName}

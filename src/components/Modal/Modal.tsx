@@ -17,8 +17,9 @@ const Modal: FC<ModalProps> = ({
   classNames,
   backdropClassNames,
   transitionClassNames,
-  swipe = "left",
+  swipe = "right",
   disableScroll = false,
+  renderCrossButton = false,
   setVisible,
   close,
   ...props
@@ -30,6 +31,7 @@ const Modal: FC<ModalProps> = ({
       setVisible(true);
       disableScroll && document.body.classList.add(styles["no-scroll"]);
     }
+
     return () => {
       document.body.classList.remove(styles["no-scroll"]);
     };
@@ -69,14 +71,16 @@ const Modal: FC<ModalProps> = ({
   const markup = (
     <div className={backDropClassNames} onClick={onHandleBackDropClick}>
       <div className={modalClassNames}>
-        <div className={styles["button-wrapper"]}>
-          <UIButton
-            onClick={close}
-            variant="text"
-            icon={IconEnum.CROSS}
-            color="accent"
-          />
-        </div>
+        {renderCrossButton && (
+          <div className={styles["button-wrapper"]}>
+            <UIButton
+              onClick={close}
+              variant="text"
+              icon={IconEnum.CROSS}
+              color="accent"
+            />
+          </div>
+        )}
         {children}
       </div>
     </div>

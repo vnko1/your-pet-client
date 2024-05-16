@@ -1,17 +1,14 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { useRouter } from "next/navigation";
+
 import { IconEnum, LinksEnum } from "@/types";
 import { UIButton } from "@/components";
-import { LogoutModal } from "@/app/ui";
+
 import { ButtonsProps } from "./Buttons.type";
 
 const Buttons: FC<ButtonsProps> = ({ user }) => {
   const router = useRouter();
-  const [isActive, setIsActive] = useState(false);
-  const onHandleClick = async () => {
-    setIsActive(true);
-  };
 
   const navigate = (url: string) => {
     router.push(url);
@@ -26,7 +23,6 @@ const Buttons: FC<ButtonsProps> = ({ user }) => {
         color="secondary"
         icon={IconEnum.LOGOUT}
         alignIcon="right"
-        onClick={onHandleClick}
       >
         Log out
       </UIButton>
@@ -58,15 +54,7 @@ const Buttons: FC<ButtonsProps> = ({ user }) => {
     </>
   );
 
-  const renderModal = (
-    <LogoutModal setIsActive={setIsActive} isActive={isActive} />
-  );
-  return (
-    <>
-      {renderButtons}
-      {renderModal}
-    </>
-  );
+  return <>{renderButtons}</>;
 };
 
 export default Buttons;
