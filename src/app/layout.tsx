@@ -7,8 +7,8 @@ import { Header } from "./ui";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
-  title: "My Pet App",
-  description: "My Pet app - applications about pets",
+  title: "Your Pet ",
+  description: "Your pet app - applications about pets",
 };
 
 export default async function RootLayout({
