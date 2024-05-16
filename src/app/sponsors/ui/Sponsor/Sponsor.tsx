@@ -17,10 +17,17 @@ function getDefaultTime(workDays: WorkDays[] | null) {
   }
 }
 
-const Sponsor: FC<SponsorProps> = ({ classNames, sponsor }) => {
-  const { title, url, address, addressUrl, imageUrl, phone, email, workDays } =
-    sponsor;
-
+const Sponsor: FC<SponsorProps> = ({
+  classNames,
+  title,
+  url,
+  address,
+  addressUrl,
+  imageUrl,
+  phone,
+  email,
+  workDays,
+}) => {
   const defaultTime = getDefaultTime(workDays);
   return (
     <div className={`${styles["card"]} ${classNames}`}>

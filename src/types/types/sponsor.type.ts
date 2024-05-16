@@ -5,7 +5,7 @@ export type WorkDays = {
   _id: string;
 };
 
-export type SponsorType = {
+export type Sponsor = {
   _id: string;
   title: string;
   url: string;

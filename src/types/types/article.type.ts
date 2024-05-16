@@ -1,4 +1,4 @@
-export type ArticleTypes = {
+export type Article = {
   _id: string;
   imgUrl: string;
   title: string;
