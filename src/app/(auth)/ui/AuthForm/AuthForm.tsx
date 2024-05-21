@@ -1,12 +1,13 @@
 "use client";
 import React, { FC } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormField, UIButton } from "@/components";
 
-import { loginSchema, registerSchema } from "./AuthForm.schema";
-import { AuthFormProps, LoginSchema, RegisterSchema } from "./AuthForm.type";
+import { authSchema } from "./AuthForm.schema";
+import { AuthFormProps } from "./AuthForm.type";
 import styles from "./AuthForm.module.scss";
 
 const SignUp: FC<AuthFormProps> = ({
@@ -15,16 +16,16 @@ const SignUp: FC<AuthFormProps> = ({
   path = "register",
 }) => {
   const isRegister = path === "register";
+  const schema = authSchema(path);
+  type AuthSchemaType = z.infer<typeof schema>;
 
-  const methods = useForm({
-    resolver: zodResolver(isRegister ? registerSchema : loginSchema),
+  const methods = useForm<AuthSchemaType>({
+    resolver: zodResolver(schema),
     mode: "all",
   });
 
-  const handleAction: SubmitHandler<LoginSchema | RegisterSchema> = async (
-    formValues
-  ) => {
-    console.log("🚀 ~ handleAction ~ formData:", formValues);
+  const handleAction: SubmitHandler<AuthSchemaType> = async (data) => {
+    console.log("🚀 ~ handleAction ~ formData:", data);
   };
 
   return (

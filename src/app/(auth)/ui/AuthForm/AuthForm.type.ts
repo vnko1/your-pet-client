@@ -1,6 +1,4 @@
 import { HTMLInputTypeAttribute } from "react";
-import * as z from "zod";
-import { loginSchema, registerSchema } from "./AuthForm.schema";
 
 export type AuthFormProps = {
   classNames?: string;
@@ -12,6 +10,3 @@ export type AuthFormProps = {
     fieldValidation: boolean;
   }[];
 };
-
-export type RegisterSchema = z.infer<typeof registerSchema>;
-export type LoginSchema = z.infer<typeof loginSchema>;

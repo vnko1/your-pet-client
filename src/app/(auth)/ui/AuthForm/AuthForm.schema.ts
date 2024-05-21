@@ -1,53 +1,9 @@
 import * as z from "zod";
 import { emailValid, passwordValid } from "@/utils";
 
-export const registerSchema = z
-  .object({
-    name: z.string({ required_error: "Name field is required" }).min(2).max(16),
-    email: z
-      .string({ required_error: "Email field is required" })
-      .email("Enter a valid Email")
-      .max(70, { message: "Maximum 70 characters" })
-      .min(10, { message: "Minimum 10 characters" })
-      .regex(emailValid, { message: "Enter a valid Email" }),
-    password: z
-      .string({ required_error: "Password field is required" })
-      .min(6, { message: "Enter 6 or more characters" })
-      .max(16, { message: "Please enter 16 characters or less" })
-      .regex(passwordValid, {
-        message: "Please enter min 6 characters and max 16",
-      }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords must match",
-    path: ["confirmPassword"],
-  });
-
-export const loginSchema = z.object({
-  email: z
-    .string({ required_error: "Email field is required" })
-    .email("Enter a valid Email")
-    .max(70, { message: "Maximum 70 characters" })
-    .min(10, { message: "Minimum 10 characters" })
-    .regex(emailValid, { message: "Enter a valid Email" }),
-  password: z
-    .string({ required_error: "Password field is required" })
-    .min(6, { message: "Enter 6 or more characters" })
-    .max(16, { message: "Please enter 16 characters or less" })
-    .regex(passwordValid, {
-      message: "Please enter min 6 characters and max 16",
-    }),
-});
-
 export const authSchema = (path: string) => {
   return z
     .object({
-      name: z
-        .string({ required_error: "Name field is required" })
-        .min(2)
-        .max(16)
-        .optional(),
       email: z
         .string({ required_error: "Email field is required" })
         .email("Enter a valid Email")
@@ -61,11 +17,24 @@ export const authSchema = (path: string) => {
         .regex(passwordValid, {
           message: "Please enter min 6 characters and max 16",
         }),
-      confirmPassword: z.string().optional(),
+      name: z
+        .string({ required_error: "Name field is required" })
+        .min(2, { message: "Minimum 2 characters" })
+        .max(16, { message: "Maximum 16 characters" })
+        .optional(),
+      confirmPassword: z
+        .string({ required_error: "Confirm password field is required" })
+        .optional(),
     })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: "Passwords must match",
-      path: ["confirmPassword"],
+    .refine((data) => path !== "register" || data.name, {
+      path: ["name"],
+      message: "Name field is required for registration",
     })
-    .refine();
+    .refine(
+      (data) => path !== "register" || data.confirmPassword === data.password,
+      {
+        path: ["confirmPassword"],
+        message: "Passwords do not match",
+      }
+    );
 };
