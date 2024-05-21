@@ -5,10 +5,12 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormField, UIButton } from "@/components";
+import { register } from "@/lib";
 
 import { authSchema } from "./AuthForm.schema";
 import { AuthFormProps } from "./AuthForm.type";
 import styles from "./AuthForm.module.scss";
+import { IApiError } from "@/types";
 
 const SignUp: FC<AuthFormProps> = ({
   classNames,
@@ -25,7 +27,18 @@ const SignUp: FC<AuthFormProps> = ({
   });
 
   const handleAction: SubmitHandler<AuthSchemaType> = async (data) => {
-    console.log("🚀 ~ handleAction ~ formData:", data);
+    try {
+      const res = await register(data);
+
+      console.log(
+        "🚀 ~ consthandleAction:SubmitHandler<AuthSchemaType>= ~ res:",
+        res
+      );
+
+      // console.log(res);
+    } catch (error) {
+      if (error instanceof IApiError) console.log(error);
+    }
   };
 
   return (
