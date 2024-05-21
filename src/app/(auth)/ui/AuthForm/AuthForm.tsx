@@ -1,15 +1,15 @@
 "use client";
 import React, { FC } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ConstantsEnum } from "@/types";
-
 import { FormField, UIButton } from "@/components";
-import { ResType, SignUpProps } from "./signUp.type";
-import styles from "./signUp.module.scss";
 
-const SignUp: FC<SignUpProps> = ({
+import { loginSchema, registerSchema } from "./AuthForm.schema";
+import { AuthFormProps, LoginSchema, RegisterSchema } from "./AuthForm.type";
+import styles from "./AuthForm.module.scss";
+
+const SignUp: FC<AuthFormProps> = ({
   classNames,
   fields = [],
   path = "register",
@@ -21,37 +21,21 @@ const SignUp: FC<SignUpProps> = ({
     mode: "all",
   });
 
-  const handleAction = async (formData: FormData) => {
-    const formValues = methods.getValues();
-
-    try {
-      const res: ResType = isRegister
-        ? await register(formData)
-        : await login(formData);
-
-      if (res?.errors && typeof res.errors === "object") {
-        const [key] = Object.keys(res.errors);
-
-        if (key in formValues)
-          return methods.setError(key, { message: res.errors[key] });
-        else throw new Error(res.errors[key]);
-      }
-      isRegister && localStorage.removeItem(ConstantsEnum.IS_NEW_USER);
-      methods.reset();
-    } catch (error) {
-      if (error instanceof Error) throw new Error(error.message);
-    }
+  const handleAction: SubmitHandler<LoginSchema | RegisterSchema> = async (
+    formValues
+  ) => {
+    console.log("🚀 ~ handleAction ~ formData:", formValues);
   };
 
   return (
     <FormProvider {...methods}>
       <form
-        action={handleAction}
+        onSubmit={methods.handleSubmit(handleAction)}
         className={`${styles["form"]} ${classNames}`}
         noValidate
       >
         {fields.map((field, index) => (
-          <Field key={index} {...field} fieldIcons />
+          <FormField key={index} {...field} fieldIcons />
         ))}
         <span>
           <UIButton type="submit" fullWidth color="secondary">
