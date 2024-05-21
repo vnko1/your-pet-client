@@ -6,9 +6,8 @@ import Link from "next/link";
 import styles from "./auth.module.scss";
 
 function AuthLayout({ children }: { children: ReactNode }) {
-  const pathName = usePathname();
+  const isRegister = usePathname() === "/register";
 
-  const isRegister = pathName === "/register";
   return (
     <main>
       <section className="section">
