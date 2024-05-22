@@ -17,7 +17,7 @@ export async function login(
   data: LoginType
 ): Promise<AxiosResponse | AxiosError<IApiError> | undefined> {
   try {
-    await api.post(EndpointsEnum.Login, data);
+    return await api.post(EndpointsEnum.Login, data);
   } catch (error) {
     if (error instanceof AxiosError) return error.response?.data;
   }

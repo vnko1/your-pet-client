@@ -5,13 +5,20 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormField, UIButton } from "@/components";
-import { register } from "@/lib";
+import { login, register } from "@/lib";
 
 import { authSchema } from "./AuthForm.schema";
 import { AuthFormProps } from "./AuthForm.type";
 import styles from "./AuthForm.module.scss";
-import { isApiError, LinksEnum, RegisterType } from "@/types";
+import {
+  EndpointsEnum,
+  isApiError,
+  LinksEnum,
+  LoginType,
+  RegisterType,
+} from "@/types";
 import { useRouter } from "next/navigation";
+import { api } from "@/services";
 
 const SignUp: FC<AuthFormProps> = ({
   classNames,
@@ -20,17 +27,17 @@ const SignUp: FC<AuthFormProps> = ({
 }) => {
   const isRegister = path === "register";
   const schema = authSchema(path);
-  type AuthSchemaType = z.infer<typeof schema>;
   const router = useRouter();
+
+  type AuthSchemaType = z.infer<typeof schema>;
 
   const methods = useForm<AuthSchemaType>({
     resolver: zodResolver(schema),
     mode: "all",
   });
 
-  const handleAction: SubmitHandler<AuthSchemaType> = async (data) => {
-    methods.reset(data, { keepValues: true });
-    const res = await register(data as RegisterType);
+  const handleRegister = async (data: RegisterType) => {
+    const res = await register(data);
 
     if (res && isApiError(res))
       return methods.setError("root.serverError", {
@@ -41,10 +48,30 @@ const SignUp: FC<AuthFormProps> = ({
     router.push(LinksEnum.LOGIN);
   };
 
+  const handleLogin = async (data: LoginType) => {
+    const res = await api.post(EndpointsEnum.Login, data);
+    console.log(res);
+    // const res = await login(data);
+    // console.log(res);
+    // if (res && isApiError(res))
+    //   return methods.setError("root.serverError", {
+    //     message: res.errorMessage,
+    //     type: "custom",
+    //   });
+
+    // router.push(LinksEnum.LOGIN);
+  };
+
+  const handleSubmit: SubmitHandler<AuthSchemaType> = async (data) => {
+    methods.reset(data, { keepValues: true });
+    if (isRegister) return handleRegister(data as RegisterType);
+    handleLogin(data as LoginType);
+  };
+
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit(handleAction)}
+        onSubmit={methods.handleSubmit(handleSubmit)}
         className={`${styles["form"]} ${classNames}`}
         noValidate
       >
