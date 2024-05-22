@@ -1,6 +1,10 @@
 import axios from "axios";
 import { EndpointsEnum } from "@/types";
-import { getParsedSession, handleAuth, sessionLogout } from "@/lib";
+import {
+  getParsedSession,
+  handleAuth,
+  sessionLogout,
+} from "@/lib/actions/session/session.action";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 

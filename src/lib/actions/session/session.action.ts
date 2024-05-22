@@ -6,7 +6,6 @@ import { getIronSession } from "iron-session";
 
 import { defaultSession, SessionData, sessionOptions, sleep } from "@/services";
 import { JSONParser } from "@/utils";
-import { LinksEnum } from "@/types";
 
 export async function getSession(shouldSleep = true) {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
@@ -32,11 +31,11 @@ export async function handleAuth(access_token: string) {
 
 export async function sessionLogin(access_token: string) {
   await handleAuth(access_token);
-  revalidatePath(LinksEnum.HOME, "layout");
+  revalidatePath("/", "layout");
 }
 
 export async function sessionLogout() {
   const session = await getSession(false);
   session.destroy();
-  revalidatePath(LinksEnum.HOME, "layout");
+  revalidatePath("/", "layout");
 }
