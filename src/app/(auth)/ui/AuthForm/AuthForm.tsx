@@ -10,7 +10,8 @@ import { register } from "@/lib";
 import { authSchema } from "./AuthForm.schema";
 import { AuthFormProps } from "./AuthForm.type";
 import styles from "./AuthForm.module.scss";
-import { IApiError, RegisterType } from "@/types";
+import { isApiError, LinksEnum, RegisterType } from "@/types";
+import { useRouter } from "next/navigation";
 
 const SignUp: FC<AuthFormProps> = ({
   classNames,
@@ -20,6 +21,7 @@ const SignUp: FC<AuthFormProps> = ({
   const isRegister = path === "register";
   const schema = authSchema(path);
   type AuthSchemaType = z.infer<typeof schema>;
+  const router = useRouter();
 
   const methods = useForm<AuthSchemaType>({
     resolver: zodResolver(schema),
@@ -27,19 +29,16 @@ const SignUp: FC<AuthFormProps> = ({
   });
 
   const handleAction: SubmitHandler<AuthSchemaType> = async (data) => {
-    try {
-      const res = await register(data as RegisterType);
-      console.log(
-        "🚀 ~ consthandleAction:SubmitHandler<AuthSchemaType>= ~ res:",
-        res
-      );
-    } catch (error) {
-      console.log(
-        "🚀 ~ consthandleAction:SubmitHandler<AuthSchemaType>= ~ error:",
-        error
-      );
-      // if (error instanceof AxiosError)
-    }
+    methods.reset(data, { keepValues: true });
+    const res = await register(data as RegisterType);
+
+    if (res && isApiError(res))
+      return methods.setError("root.serverError", {
+        message: res.errorMessage,
+        type: "custom",
+      });
+
+    router.push(LinksEnum.LOGIN);
   };
 
   return (
@@ -52,11 +51,16 @@ const SignUp: FC<AuthFormProps> = ({
         {fields.map((field, index) => (
           <FormField key={index} {...field} fieldIcons />
         ))}
-        <span>
+        <div className={styles["form__button"]}>
           <UIButton type="submit" fullWidth color="secondary">
             {isRegister ? "Registration" : "Login"}
           </UIButton>
-        </span>
+          {methods.formState.errors.root?.serverError ? (
+            <p className={styles["form__error"]}>
+              {methods.formState.errors.root?.serverError.message}
+            </p>
+          ) : null}
+        </div>
       </form>
     </FormProvider>
   );
