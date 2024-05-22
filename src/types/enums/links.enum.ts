@@ -11,7 +11,7 @@ export enum LinksEnum {
   FRIENDS = "/sponsors",
   LOGIN = "/login",
   REGISTER = "/register",
-  USER = "/user",
+  USER = "/profile",
   ADD_PET = "/add-pet",
   ADD_PET_CATEGORY = LinksEnum.ADD_PET + "/category",
   ADD_PET_DETAILS = LinksEnum.ADD_PET + "/details",

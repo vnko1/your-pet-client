@@ -4,19 +4,22 @@ import { FC, useEffect, useState } from "react";
 import { ProfileProviderProps } from "./ProfileProvider.type";
 import { ProfileContext } from "./hook";
 import { privateApi } from "@/services";
-import { EndpointsEnum } from "@/types";
+import { EndpointsEnum, User } from "@/types";
+import { AxiosResponse } from "axios";
 
 const ProfileProvider: FC<ProfileProviderProps> = ({ children }) => {
-  const [user] = useState(null);
+  const [user, setUser] = useState<null | User>(null);
 
   useEffect(() => {
-    privateApi.get(EndpointsEnum.Profile).then((res) => {
-      console.log("🚀 ~ useEffect ~ res:", res);
+    privateApi.get(EndpointsEnum.Profile).then((res: AxiosResponse<User>) => {
+      setUser(res.data);
     });
   }, []);
 
   return (
-    <ProfileContext.Provider value={user}>{children}</ProfileContext.Provider>
+    <ProfileContext.Provider value={{ user, setUser }}>
+      {children}
+    </ProfileContext.Provider>
   );
 };
 

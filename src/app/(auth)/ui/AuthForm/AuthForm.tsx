@@ -6,13 +6,13 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormField, UIButton } from "@/components";
-import { login, register } from "@/lib";
+import { login, register, sessionLogin } from "@/lib";
 import { isApiError, LinksEnum, LoginType, RegisterType } from "@/types";
+import { useProfileContext } from "@/context";
 
 import { authSchema } from "./AuthForm.schema";
 import { AuthFormProps } from "./AuthForm.type";
 import styles from "./AuthForm.module.scss";
-import { setDataToLS } from "@/utils";
 
 const SignUp: FC<AuthFormProps> = ({
   classNames,
@@ -22,6 +22,7 @@ const SignUp: FC<AuthFormProps> = ({
   const isRegister = path === "register";
   const schema = authSchema(path);
   const router = useRouter();
+  const { setUser } = useProfileContext();
 
   type AuthSchemaType = z.infer<typeof schema>;
 
@@ -50,9 +51,9 @@ const SignUp: FC<AuthFormProps> = ({
         message: res.errorMessage,
         type: "custom",
       });
-
-    setDataToLS({ access_token: res.data?.access_token });
-    router.push(LinksEnum.HOME);
+    await sessionLogin(res.data.access_token);
+    setUser(res.data.data);
+    router.push(LinksEnum.USER);
   };
 
   const handleSubmit: SubmitHandler<AuthSchemaType> = async (data) => {

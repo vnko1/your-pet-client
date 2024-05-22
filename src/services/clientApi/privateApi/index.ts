@@ -1,6 +1,6 @@
 import axios from "axios";
 import { EndpointsEnum } from "@/types";
-import { getDataFromLS, removeDataFromLS, setDataToLS } from "@/utils";
+import { getParsedSession, handleAuth, sessionLogout } from "@/lib";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -14,9 +14,10 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
-    const token = await getDataFromLS("access_token");
+    const { access_token } = await getParsedSession();
 
-    if (token) config.headers.Authorization = "Bearer" + " " + token;
+    if (access_token)
+      config.headers.Authorization = "Bearer" + " " + access_token;
 
     return config;
   },
@@ -30,9 +31,9 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const token = getDataFromLS("access_token");
+    const { access_token } = await getParsedSession();
 
-    if (!token) return Promise.reject(error);
+    if (!access_token) return Promise.reject(error);
 
     const originalRequest = error.config;
 
@@ -46,11 +47,11 @@ api.interceptors.response.use(
         const res = await axios.post(BASE_URL + EndpointsEnum.Refresh, null, {
           withCredentials: true,
         });
-        console.log("🚀 ~ res:", res.data.access_token);
-        setDataToLS({ access_token: res.data.access_token });
+        await handleAuth(res.data.access_token);
+
         return api.request(originalRequest);
       } catch (error) {
-        removeDataFromLS("access_token");
+        sessionLogout();
         return Promise.reject(error);
       }
     }

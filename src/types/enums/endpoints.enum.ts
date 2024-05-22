@@ -5,4 +5,5 @@ export enum EndpointsEnum {
   Login = "/auth/login",
   Refresh = "/auth/refresh",
   Profile = "/profile",
+  Logout = "/auth/logout",
 }
