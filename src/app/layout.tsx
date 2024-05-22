@@ -4,6 +4,7 @@ import { manrope, inter, poppins } from "@/fonts";
 
 import "../styles/globals.scss";
 import { Header } from "./ui";
+import { ProfileProvider } from "@/context";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
@@ -21,8 +22,10 @@ export default async function RootLayout({
       <body
         className={`${manrope.variable} ${inter.variable} ${poppins.variable}`}
       >
-        <Header user={null} />
-        {children}
+        <ProfileProvider>
+          <Header user={null} />
+          {children}
+        </ProfileProvider>
       </body>
     </html>
   );

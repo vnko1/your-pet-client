@@ -1,24 +1,17 @@
 "use client";
 import React, { FC } from "react";
+import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormField, UIButton } from "@/components";
 import { login, register } from "@/lib";
+import { isApiError, LinksEnum, LoginType, RegisterType } from "@/types";
 
 import { authSchema } from "./AuthForm.schema";
 import { AuthFormProps } from "./AuthForm.type";
 import styles from "./AuthForm.module.scss";
-import {
-  EndpointsEnum,
-  isApiError,
-  LinksEnum,
-  LoginType,
-  RegisterType,
-} from "@/types";
-import { useRouter } from "next/navigation";
-import { api } from "@/services";
 
 const SignUp: FC<AuthFormProps> = ({
   classNames,
@@ -49,17 +42,16 @@ const SignUp: FC<AuthFormProps> = ({
   };
 
   const handleLogin = async (data: LoginType) => {
-    const res = await api.post(EndpointsEnum.Login, data);
-    console.log(res);
-    // const res = await login(data);
-    // console.log(res);
-    // if (res && isApiError(res))
-    //   return methods.setError("root.serverError", {
-    //     message: res.errorMessage,
-    //     type: "custom",
-    //   });
+    const res = await login(data);
 
-    // router.push(LinksEnum.LOGIN);
+    if (isApiError(res))
+      return methods.setError("root.serverError", {
+        message: res.errorMessage,
+        type: "custom",
+      });
+
+    router.push(LinksEnum.HOME);
+    router.refresh();
   };
 
   const handleSubmit: SubmitHandler<AuthSchemaType> = async (data) => {

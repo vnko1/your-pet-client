@@ -1,6 +1,6 @@
-import { api } from "@/services";
+import { publicApi } from "@/services";
 import { EndpointsEnum } from "@/types";
 
 export async function getSponsors() {
-  return await api(EndpointsEnum.Sponsors);
+  return await publicApi(EndpointsEnum.Sponsors);
 }

@@ -3,4 +3,6 @@ export enum EndpointsEnum {
   Sponsors = "/sponsors",
   Register = "/auth/register",
   Login = "/auth/login",
+  Refresh = "/auth/refresh",
+  Profile = "/profile",
 }

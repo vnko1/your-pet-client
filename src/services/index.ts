@@ -1,1 +1,1 @@
-export { default as api } from "./clientApi";
+export { publicApi, privateApi } from "./clientApi";
