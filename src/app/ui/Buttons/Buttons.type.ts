@@ -1,3 +1,5 @@
 // import { JWTPayloadType } from "@/types";
 
-export type ButtonsProps = { user: null; classNames?: string };
+import { User } from "@/types";
+
+export type ButtonsProps = { user: null | User; classNames?: string };

@@ -92,7 +92,7 @@ const UIButton: FC<IUIButton> = ({
       className={baseClassNames}
       aria-label="button"
       onClick={onClick}
-      disabled={pending || isLoading || disabled}
+      disabled={disabled}
     >
       {icon ? <Icon icon={icon} size={iconSize} /> : null}
       {children}

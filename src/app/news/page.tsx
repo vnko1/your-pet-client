@@ -8,7 +8,9 @@ import { Articles, Search } from "./ui";
 import styles from "./news.module.scss";
 
 async function Page({ searchParams }: { searchParams?: QueryParams }) {
-  const { total, data } = await getArticles(searchParams);
+  const {
+    data: { total, data },
+  } = await getArticles(searchParams);
 
   return (
     <main>

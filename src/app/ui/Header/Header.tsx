@@ -8,8 +8,8 @@ import { useModal } from "@/hooks";
 
 import { Buttons, Menu } from "@/app/ui";
 
-import { HeaderProps } from "./Header.type";
 import styles from "./Header.module.scss";
+import { useProfileContext } from "@/context";
 
 const links = [
   { label: "News", href: LinksEnum.NEWS },
@@ -17,9 +17,10 @@ const links = [
   { label: "Our friends", href: LinksEnum.FRIENDS },
 ];
 
-const Header: FC<HeaderProps> = ({ user }) => {
+const Header: FC = () => {
   const modalProps = useModal();
   const pathName = usePathname();
+  const { user } = useProfileContext();
 
   const toggleModal = () => {
     if (!modalProps.active) return modalProps.setActive(true);

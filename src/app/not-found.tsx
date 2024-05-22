@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { UIButton } from "@/components";
 import { IconEnum } from "@/types";
-import styles from "./styles.module.scss";
+import styles from "./app.module.scss";
 
 function NotFound() {
   return (
