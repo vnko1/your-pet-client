@@ -12,6 +12,7 @@ import { isApiError, LinksEnum, LoginType, RegisterType } from "@/types";
 import { authSchema } from "./AuthForm.schema";
 import { AuthFormProps } from "./AuthForm.type";
 import styles from "./AuthForm.module.scss";
+import { setDataToLS } from "@/utils";
 
 const SignUp: FC<AuthFormProps> = ({
   classNames,
@@ -44,14 +45,14 @@ const SignUp: FC<AuthFormProps> = ({
   const handleLogin = async (data: LoginType) => {
     const res = await login(data);
 
-    if (isApiError(res))
+    if (res && isApiError(res))
       return methods.setError("root.serverError", {
         message: res.errorMessage,
         type: "custom",
       });
 
+    setDataToLS({ access_token: res.data?.access_token });
     router.push(LinksEnum.HOME);
-    router.refresh();
   };
 
   const handleSubmit: SubmitHandler<AuthSchemaType> = async (data) => {

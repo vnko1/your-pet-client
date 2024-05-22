@@ -10,8 +10,9 @@ const ProfileProvider: FC<ProfileProviderProps> = ({ children }) => {
   const [user] = useState(null);
 
   useEffect(() => {
-    console.log(1);
-    privateApi(EndpointsEnum.Profile).then(console.log);
+    privateApi.get(EndpointsEnum.Profile).then((res) => {
+      console.log("🚀 ~ useEffect ~ res:", res);
+    });
   }, []);
 
   return (
