@@ -23,7 +23,7 @@ export default async function RootLayout({
         className={`${manrope.variable} ${inter.variable} ${poppins.variable}`}
       >
         <ProfileProvider>
-          <Header user={null} />
+          <Header />
           {children}
         </ProfileProvider>
       </body>

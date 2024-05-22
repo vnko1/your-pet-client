@@ -2,7 +2,7 @@
   @apply cursor-pointer relative inline-flex items-center justify-center transition-all duration-150 rounded-[40px];
 
   &.btn--loading {
-    @apply animate-pulse pointer-events-none;
+    @apply animate-pulse pointer-events-none bg-slate-400;
   }
 
   &.btn--fullwidth {
@@ -111,7 +111,7 @@
     }
 
     &:disabled {
-      @apply bg-grey text-white border-transparent;
+      @apply bg-slate-400 text-white border-transparent;
     }
   }
 

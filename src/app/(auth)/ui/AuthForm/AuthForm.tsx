@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -23,6 +23,7 @@ const SignUp: FC<AuthFormProps> = ({
   const schema = authSchema(path);
   const router = useRouter();
   const { setUser } = useProfileContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   type AuthSchemaType = z.infer<typeof schema>;
 
@@ -57,9 +58,14 @@ const SignUp: FC<AuthFormProps> = ({
   };
 
   const handleSubmit: SubmitHandler<AuthSchemaType> = async (data) => {
+    setIsLoading(true);
     methods.reset(data, { keepValues: true });
-    if (isRegister) return handleRegister(data as RegisterType);
-    handleLogin(data as LoginType);
+    try {
+      if (isRegister) return handleRegister(data as RegisterType);
+      await handleLogin(data as LoginType);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -73,7 +79,13 @@ const SignUp: FC<AuthFormProps> = ({
           <FormField key={index} {...field} fieldIcons />
         ))}
         <div className={styles["form__button"]}>
-          <UIButton type="submit" fullWidth color="secondary">
+          <UIButton
+            isLoading={isLoading}
+            disabled={isLoading}
+            type="submit"
+            fullWidth
+            color="secondary"
+          >
             {isRegister ? "Registration" : "Login"}
           </UIButton>
           {methods.formState.errors.root?.serverError ? (

@@ -34,7 +34,7 @@ const Buttons: FC<ButtonsProps> = ({ user }) => {
         alignIcon="left"
         onClick={() => navigate(LinksEnum.USER)}
       >
-        {user}
+        {user.name}
       </UIButton>
     </>
   ) : (
