@@ -1,21 +1,14 @@
 "use server";
-import { EndpointsEnum } from "@/types";
+import { api } from "@/services";
+import { EndpointsEnum, IApiError, RegisterType } from "@/types";
+import { AxiosError, AxiosResponse } from "axios";
 
-const BASE_URL = process.env.API_URL;
-
-export async function register(data: {
-  name: string;
-  email: string;
-  password: string;
-}) {
-  const res = await fetch(BASE_URL + EndpointsEnum.Register, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  return await res.json();
+export async function register(
+  data: RegisterType
+): Promise<AxiosResponse<{ user: string }> | AxiosError<IApiError>> {
+  try {
+    return await api.post(EndpointsEnum.Register, data);
+  } catch (error) {
+    if (error instanceof AxiosError) return error.response?.data;
+  }
 }

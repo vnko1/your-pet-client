@@ -10,7 +10,7 @@ import { register } from "@/lib";
 import { authSchema } from "./AuthForm.schema";
 import { AuthFormProps } from "./AuthForm.type";
 import styles from "./AuthForm.module.scss";
-import { IApiError } from "@/types";
+import { IApiError, RegisterType } from "@/types";
 
 const SignUp: FC<AuthFormProps> = ({
   classNames,
@@ -28,16 +28,17 @@ const SignUp: FC<AuthFormProps> = ({
 
   const handleAction: SubmitHandler<AuthSchemaType> = async (data) => {
     try {
-      const res = await register(data);
-
+      const res = await register(data as RegisterType);
       console.log(
         "🚀 ~ consthandleAction:SubmitHandler<AuthSchemaType>= ~ res:",
         res
       );
-
-      // console.log(res);
     } catch (error) {
-      if (error instanceof IApiError) console.log(error);
+      console.log(
+        "🚀 ~ consthandleAction:SubmitHandler<AuthSchemaType>= ~ error:",
+        error
+      );
+      // if (error instanceof AxiosError)
     }
   };
 

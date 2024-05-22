@@ -5,13 +5,12 @@ export interface IApiError {
   errorMessage: string;
 }
 
-export const isApiError = (error: object): error is IApiError => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isApiError = (error: any): error is IApiError => {
   return (
-    typeof error === "object" &&
-    error !== null &&
-    typeof error.statusCode === "number" &&
-    typeof error.path === "string" &&
-    typeof error.errorType === "string" &&
-    typeof error.errorMessage === "string"
+    "statusCode" in error &&
+    "path" in error &&
+    "errorType" in error &&
+    "errorMessage" in error
   );
 };
