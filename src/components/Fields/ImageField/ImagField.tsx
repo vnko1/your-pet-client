@@ -8,6 +8,7 @@ import styles from "./ImageField.module.scss";
 
 const ImagField: FC<ImageFieldProps> = ({
   setPreview,
+  setActive,
   name,
   inputRef,
   preview,
@@ -18,15 +19,15 @@ const ImagField: FC<ImageFieldProps> = ({
   imageClassNames,
   disabled,
 }) => {
-  const { register, getValues } = useFormContext();
+  const { register } = useFormContext();
   const { ref: registerRef, ...rest } = register(name);
   const handleUploadedFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.length) return;
     const file = event.target.files[0];
 
     const urlImage = URL.createObjectURL(file);
-
     setPreview(urlImage);
+    setActive && setActive(true);
   };
 
   return (

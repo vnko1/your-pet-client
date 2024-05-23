@@ -16,6 +16,7 @@ import styles from "./UserForm.module.scss";
 const UserForm: FC = () => {
   const { user, handleLogout } = useProfileContext();
   const [isEditing, setIsEditing] = useState(false);
+  const [active, setActive] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -25,6 +26,7 @@ const UserForm: FC = () => {
     values: user || undefined,
   });
 
+  const { setValue } = methods;
   const buttonsClassName = cn(styles["form__buttons"], {
     [styles["edit"]]: isEditing,
   });
@@ -33,7 +35,7 @@ const UserForm: FC = () => {
     setIsEditing(!isEditing);
   };
 
-  const renderImageButtons = !preview ? (
+  const renderImageButtons = !active ? (
     <button
       type="button"
       className={`${styles["button"]} ${styles["button-text"]}`}
@@ -48,7 +50,10 @@ const UserForm: FC = () => {
     <div className={styles["buttons"]}>
       <button
         type="button"
-        onClick={() => {}}
+        onClick={() => {
+          setValue("file", preview);
+          setActive(false);
+        }}
         className={`${styles["button"]} ${styles["button-text"]}`}
       >
         <Icon icon={IconEnum.CHECK} size={24} />
@@ -56,7 +61,10 @@ const UserForm: FC = () => {
       </button>
       <button
         type="button"
-        // onClick={onHandleReset}
+        onClick={() => {
+          setPreview(null);
+          setActive(false);
+        }}
         className={`${styles["button"]} ${styles["button-icon"]}`}
       >
         <Icon icon={IconEnum.CROSS} size={24} />
@@ -83,6 +91,7 @@ const UserForm: FC = () => {
               inputRef={imageInputRef}
               preview={preview || user?.avatarUrl || ""}
               setPreview={setPreview}
+              setActive={setActive}
               width={182}
               height={182}
               alt="user avatar"
