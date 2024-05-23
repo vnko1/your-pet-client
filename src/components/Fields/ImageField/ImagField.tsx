@@ -18,9 +18,8 @@ const ImagField: FC<ImageFieldProps> = ({
   imageClassNames,
   disabled,
 }) => {
-  const { register } = useFormContext();
+  const { register, getValues } = useFormContext();
   const { ref: registerRef, ...rest } = register(name);
-
   const handleUploadedFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.length) return;
     const file = event.target.files[0];
@@ -31,7 +30,7 @@ const ImagField: FC<ImageFieldProps> = ({
   };
 
   return (
-    <label className={`${styles["field"]} ${classNames}`}>
+    <div className={`${styles["field"]} ${classNames}`}>
       <input
         type="file"
         {...rest}
@@ -54,7 +53,7 @@ const ImagField: FC<ImageFieldProps> = ({
         placeholder="blur"
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk8LpfDwADJQGq85EagQAAAABJRU5ErkJggg=="
       />
-    </label>
+    </div>
   );
 };
 

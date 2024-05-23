@@ -14,10 +14,10 @@ import { userSchema, UserSchemaType } from "./UserForm.schema";
 import styles from "./UserForm.module.scss";
 
 const UserForm: FC = () => {
-  const [isEditing, setIsEditing] = useState(false);
   const { user, handleLogout } = useProfileContext();
+  const [isEditing, setIsEditing] = useState(false);
+  const [preview, setPreview] = useState<string | null>(null);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
-  const [preview, setPreview] = useState(user?.avatarUrl || "");
 
   const methods = useForm<UserSchemaType>({
     mode: "all",
@@ -32,6 +32,37 @@ const UserForm: FC = () => {
   const onHandleCrossClick = () => {
     setIsEditing(!isEditing);
   };
+
+  const renderImageButtons = !preview ? (
+    <button
+      type="button"
+      className={`${styles["button"]} ${styles["button-text"]}`}
+      onClick={() => {
+        imageInputRef.current?.click();
+      }}
+    >
+      <Icon icon={IconEnum.CAMERA} size={24} />
+      <span>Edit photo</span>
+    </button>
+  ) : (
+    <div className={styles["buttons"]}>
+      <button
+        type="button"
+        onClick={() => {}}
+        className={`${styles["button"]} ${styles["button-text"]}`}
+      >
+        <Icon icon={IconEnum.CHECK} size={24} />
+        <span>Confirm</span>
+      </button>
+      <button
+        type="button"
+        // onClick={onHandleReset}
+        className={`${styles["button"]} ${styles["button-icon"]}`}
+      >
+        <Icon icon={IconEnum.CROSS} size={24} />
+      </button>
+    </div>
+  );
 
   return (
     <FormProvider {...methods}>
@@ -50,14 +81,14 @@ const UserForm: FC = () => {
             <ImageField
               name="file"
               inputRef={imageInputRef}
-              preview={preview}
+              preview={preview || user?.avatarUrl || ""}
               setPreview={setPreview}
               width={182}
               height={182}
-              disabled={!isEditing}
               alt="user avatar"
             />
           </div>
+          {isEditing ? renderImageButtons : null}
         </div>
         <div className={styles["form__content"]}>
           <FormField

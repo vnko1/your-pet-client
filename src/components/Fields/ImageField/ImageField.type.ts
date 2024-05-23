@@ -7,7 +7,7 @@ export type ImageFieldProps = {
   height: number;
   alt: string;
   preview: string;
-  setPreview: Dispatch<SetStateAction<string>>;
+  setPreview: Dispatch<SetStateAction<string | null>>;
   classNames?: string;
   imageClassNames?: string;
   disabled?: boolean;

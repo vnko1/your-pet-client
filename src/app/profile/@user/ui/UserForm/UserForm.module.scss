@@ -2,6 +2,7 @@
   @apply py-2-xs px-0-md relative flex flex-col items-center gap-[60px] md:flex-row-reverse md:justify-between md:items-start md:pr-[76px] md:pl-2-xs  base:flex-col base:items-center base:px-1-lg;
 
   &__image {
+    @apply flex flex-col justify-center items-center gap-0-md;
   }
 
   &__content {
@@ -37,5 +38,24 @@
 
   & > span {
     @apply text-grey;
+  }
+}
+
+.buttons {
+  @apply flex justify-center items-center gap-0-md;
+}
+
+.button {
+  @apply flex items-center justify-center bg-transparent;
+  &-text {
+    @apply gap-0-md hover:text-yellow text-blue font-normal text-xs leading-[22px] tracking-[0.48px] bg-transparent;
+
+    & > span {
+      @apply text-black;
+    }
+  }
+
+  &-icon {
+    @apply text-red hover:text-blue;
   }
 }
