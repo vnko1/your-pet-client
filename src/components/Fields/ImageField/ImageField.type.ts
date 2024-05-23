@@ -6,7 +6,7 @@ export type ImageFieldProps = {
   width: number;
   height: number;
   alt: string;
-  preview: string;
+  preview: string | null;
   setPreview: Dispatch<SetStateAction<string | null>>;
   setActive?: Dispatch<SetStateAction<boolean>>;
   classNames?: string;
