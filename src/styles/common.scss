@@ -27,3 +27,11 @@ main {
 .no-scroll {
   @apply overflow-hidden;
 }
+
+.error-wrapper {
+  @apply w-full rounded-[20px] bg-originWhite flex flex-col justify-center shadow-sm gap-4-xs base:max-w-[394px] text-center items-center min-h-[320px];
+
+  &__btn {
+    @apply w-full md:max-w-[248px];
+  }
+}

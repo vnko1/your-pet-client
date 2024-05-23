@@ -13,6 +13,7 @@ const api = axios.create({
   withCredentials: true,
   headers: {
     "X-Requested-With": "XMLHttpRequest",
+    "Content-Type": "application/x-www-form-urlencoded",
   },
 });
 

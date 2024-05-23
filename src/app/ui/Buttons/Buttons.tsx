@@ -3,7 +3,6 @@ import React, { FC } from "react";
 import { useRouter } from "next/navigation";
 
 import { IconEnum, LinksEnum } from "@/types";
-import { logout } from "@/lib";
 import { useProfileContext } from "@/context";
 import { UIButton } from "@/components";
 
@@ -11,18 +10,13 @@ import { ButtonsProps } from "./Buttons.type";
 
 const Buttons: FC<ButtonsProps> = ({ user }) => {
   const router = useRouter();
-  const { setUser } = useProfileContext();
+  const { handleLogout } = useProfileContext();
 
   const navigate = (url: string) => {
     router.push(url);
     router.refresh();
   };
 
-  const handleLogout = async () => {
-    await logout();
-    setUser(null);
-    router.refresh();
-  };
   const renderButtons = user ? (
     <>
       <UIButton

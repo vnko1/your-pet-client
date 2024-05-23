@@ -9,6 +9,7 @@ import { FormField, UIButton } from "@/components";
 import { login, register, sessionLogin } from "@/lib";
 import { isApiError, LinksEnum, LoginType, RegisterType } from "@/types";
 import { useProfileContext } from "@/context";
+import { setDataToLS } from "@/utils";
 
 import { authSchema } from "./AuthForm.schema";
 import { AuthFormProps } from "./AuthForm.type";
@@ -40,7 +41,7 @@ const SignUp: FC<AuthFormProps> = ({
         message: res.errorMessage,
         type: "custom",
       });
-
+    setDataToLS({ newUser: true });
     router.push(LinksEnum.LOGIN);
   };
 

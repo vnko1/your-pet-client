@@ -1,5 +1,5 @@
 type StorageArgs = {
-  [key: string]: string | number | string[];
+  [key: string]: boolean | string | number | string[];
 };
 
 export const setDataToLS = (data: StorageArgs) =>

@@ -5,7 +5,7 @@ function ProfileLayout({ pets, user }: { pets: ReactNode; user: ReactNode }) {
   return (
     <main>
       <section className="section">
-        <div className={`container ${styles["user"]}`}>
+        <div className={`container ${styles["profile"]}`}>
           {user}
           {pets}
         </div>
