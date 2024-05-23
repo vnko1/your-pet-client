@@ -17,6 +17,7 @@ const UserForm: FC = () => {
   const { user, handleLogout } = useProfileContext();
   const [isEditing, setIsEditing] = useState(false);
   const [active, setActive] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -26,7 +27,8 @@ const UserForm: FC = () => {
     values: user || undefined,
   });
 
-  const { handleSubmit, setValue, formState, getValues } = methods;
+  const { handleSubmit, setValue, formState } = methods;
+  console.log("🚀 ~ formState:", formState.errors);
 
   const buttonsClassName = cn(styles["form__buttons"], {
     [styles["edit"]]: isEditing,
@@ -35,8 +37,6 @@ const UserForm: FC = () => {
   const onHandleCrossClick = () => {
     setIsEditing(!isEditing);
   };
-  // console.log("🚀 ~ formState ~ errors:", formState.errors);
-  console.log("🚀 ~ getValues:", getValues("file"));
 
   const submit: SubmitHandler<UserSchemaType> = async (data) => {
     console.log(
@@ -62,6 +62,7 @@ const UserForm: FC = () => {
         type="button"
         onClick={() => {
           setActive(false);
+          setValue("file", file);
         }}
         className={`${styles["button"]} ${styles["button-text"]}`}
       >
@@ -72,7 +73,7 @@ const UserForm: FC = () => {
         type="button"
         onClick={() => {
           setPreview(null);
-          setValue("file", null);
+          setFile(null);
           setActive(false);
         }}
         className={`${styles["button"]} ${styles["button-icon"]}`}
@@ -106,6 +107,7 @@ const UserForm: FC = () => {
               preview={image}
               setPreview={setPreview}
               setActive={setActive}
+              setFile={setFile}
               width={182}
               height={182}
               alt="user avatar"

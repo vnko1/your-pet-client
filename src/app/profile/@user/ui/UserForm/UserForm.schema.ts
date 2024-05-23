@@ -40,10 +40,10 @@ export const userSchema = z
     file: z
       .any()
       .refine((file) => {
-        return file?.size <= MAX_FILE_SIZE;
+        return file || file?.size <= MAX_FILE_SIZE;
       }, `Max image size is 3MB.`)
       .refine((file) => {
-        return ACCEPTED_IMAGE_TYPES.includes(file?.type);
+        return file || ACCEPTED_IMAGE_TYPES.includes(file?.type);
       }, "Only .jpg, .jpeg, .png and .webp formats are supported.")
       .optional(),
   })

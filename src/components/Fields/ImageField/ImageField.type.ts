@@ -8,6 +8,7 @@ export type ImageFieldProps = {
   alt: string;
   preview: string | null;
   setPreview: Dispatch<SetStateAction<string | null>>;
+  setFile: Dispatch<SetStateAction<File | null>>;
   setActive?: Dispatch<SetStateAction<boolean>>;
   classNames?: string;
   imageClassNames?: string;
