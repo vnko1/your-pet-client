@@ -7,8 +7,8 @@ export const authSchema = (path: string) => {
       email: z
         .string({ required_error: "Email field is required" })
         .email("Enter a valid Email")
-        .max(70, { message: "Maximum 70 characters" })
         .min(10, { message: "Minimum 10 characters" })
+        .max(70, { message: "Maximum 70 characters" })
         .regex(emailValid, { message: "Enter a valid Email" }),
       password: z
         .string({ required_error: "Password field is required" })
@@ -20,7 +20,7 @@ export const authSchema = (path: string) => {
       name: z
         .string({ required_error: "Name field is required" })
         .min(2, { message: "Minimum 2 characters" })
-        .max(16, { message: "Maximum 16 characters" })
+        .max(15, { message: "Maximum 16 characters" })
         .optional(),
       confirmPassword: z
         .string({ required_error: "Confirm password field is required" })
