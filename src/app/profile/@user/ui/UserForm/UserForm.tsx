@@ -3,21 +3,19 @@
 import React, { FC, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import cn from "classnames";
-import { useRouter } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormField, Icon, UIButton } from "@/components";
 import { useProfileContext } from "@/context";
 import { IconEnum } from "@/types";
-import { logout } from "@/lib";
 
 import { userSchema, UserSchemaType } from "./UserForm.schema";
 import styles from "./UserForm.module.scss";
 
 const UserForm: FC = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const { user, setUser } = useProfileContext();
-  const router = useRouter();
+  const { user, handleLogout } = useProfileContext();
 
   const methods = useForm<UserSchemaType>({
     mode: "all",
@@ -31,12 +29,6 @@ const UserForm: FC = () => {
 
   const onHandleCrossClick = () => {
     setIsEditing(!isEditing);
-  };
-
-  const handleLogout = async () => {
-    await logout();
-    setUser(null);
-    router.refresh();
   };
 
   return (

@@ -1,14 +1,25 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
-import { ProfileProviderProps } from "./ProfileProvider.type";
-import { ProfileContext } from "./hook";
-import { privateApi } from "@/services";
-import { EndpointsEnum, User } from "@/types";
+import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
 
+import { privateApi } from "@/services";
+import { EndpointsEnum, User } from "@/types";
+import { logout } from "@/lib";
+
+import { ProfileContext } from "./hook";
+import { ProfileProviderProps } from "./ProfileProvider.type";
+
 const ProfileProvider: FC<ProfileProviderProps> = ({ children }) => {
+  const router = useRouter();
   const [user, setUser] = useState<null | User>(null);
+
+  const handleLogout = async () => {
+    await logout();
+    setUser(null);
+    router.refresh();
+  };
 
   useEffect(() => {
     privateApi.get(EndpointsEnum.Profile).then((res: AxiosResponse<User>) => {
@@ -17,7 +28,7 @@ const ProfileProvider: FC<ProfileProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <ProfileContext.Provider value={{ user, setUser }}>
+    <ProfileContext.Provider value={{ user, setUser, handleLogout }}>
       {children}
     </ProfileContext.Provider>
   );
