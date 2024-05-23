@@ -49,7 +49,9 @@ export const userSchema = z
   })
   .refine(
     (data) => {
-      return Object.keys(data).some((key) => data[key] !== undefined);
+      return Object.keys(data).some(
+        (key: string) => (data as never)[key] !== undefined
+      );
     },
     {
       message: "At least one field must be provided.",
