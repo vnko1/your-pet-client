@@ -28,6 +28,7 @@ const ImagField: FC<ImageFieldProps> = ({
     const urlImage = URL.createObjectURL(file);
     setPreview(urlImage);
     setActive && setActive(true);
+    event.target.value = "";
   };
 
   return (
@@ -50,7 +51,7 @@ const ImagField: FC<ImageFieldProps> = ({
         width={width}
         height={height}
         alt={alt}
-        src={preview}
+        src={preview || ""}
         placeholder="blur"
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk8LpfDwADJQGq85EagQAAAABJRU5ErkJggg=="
       />
