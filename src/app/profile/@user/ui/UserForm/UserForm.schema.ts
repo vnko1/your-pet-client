@@ -43,7 +43,7 @@ export const userSchema = z
         return file?.size <= MAX_FILE_SIZE;
       }, `Max image size is 3MB.`)
       .refine((file) => {
-        return ACCEPTED_IMAGE_TYPES.includes(file?.mimetype);
+        return ACCEPTED_IMAGE_TYPES.includes(file?.type);
       }, "Only .jpg, .jpeg, .png and .webp formats are supported.")
       .optional(),
   })

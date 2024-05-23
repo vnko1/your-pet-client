@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FC, useRef, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import cn from "classnames";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,18 +21,28 @@ const UserForm: FC = () => {
   const imageInputRef = useRef<HTMLInputElement | null>(null);
 
   const methods = useForm<UserSchemaType>({
-    mode: "all",
+    mode: "onSubmit",
     resolver: zodResolver(userSchema),
     values: user || undefined,
   });
 
-  const { setValue } = methods;
+  const { handleSubmit, setValue, formState, getValues } = methods;
+
   const buttonsClassName = cn(styles["form__buttons"], {
     [styles["edit"]]: isEditing,
   });
 
   const onHandleCrossClick = () => {
     setIsEditing(!isEditing);
+  };
+  // console.log("🚀 ~ formState ~ errors:", formState.errors);
+  console.log("🚀 ~ getValues:", getValues("file"));
+
+  const submit: SubmitHandler<UserSchemaType> = async (data) => {
+    console.log(
+      "🚀 ~ constsubmit:SubmitHandler<UserSchemaType>= ~ data:",
+      data
+    );
   };
 
   const renderImageButtons = !active ? (
@@ -51,7 +61,6 @@ const UserForm: FC = () => {
       <button
         type="button"
         onClick={() => {
-          setValue("file", preview);
           setActive(false);
         }}
         className={`${styles["button"]} ${styles["button-text"]}`}
@@ -63,6 +72,7 @@ const UserForm: FC = () => {
         type="button"
         onClick={() => {
           setPreview(null);
+          setValue("file", null);
           setActive(false);
         }}
         className={`${styles["button"]} ${styles["button-icon"]}`}
@@ -71,10 +81,14 @@ const UserForm: FC = () => {
       </button>
     </div>
   );
-
+  const image = preview || user?.avatarUrl || "";
   return (
     <FormProvider {...methods}>
-      <form className={styles["form"]} noValidate>
+      <form
+        className={styles["form"]}
+        onSubmit={handleSubmit(submit)}
+        noValidate
+      >
         <div className={styles["cross-btn-wrapper"]}>
           <UIButton
             variant="text"
@@ -89,7 +103,7 @@ const UserForm: FC = () => {
             <ImageField
               name="file"
               inputRef={imageInputRef}
-              preview={preview || user?.avatarUrl || ""}
+              preview={image}
               setPreview={setPreview}
               setActive={setActive}
               width={182}

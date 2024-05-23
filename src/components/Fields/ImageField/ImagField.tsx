@@ -19,13 +19,13 @@ const ImagField: FC<ImageFieldProps> = ({
   imageClassNames,
   disabled,
 }) => {
-  const { register } = useFormContext();
+  const { register, setValue } = useFormContext();
   const { ref: registerRef, ...rest } = register(name);
   const handleUploadedFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.length) return;
     const file = event.target.files[0];
-
     const urlImage = URL.createObjectURL(file);
+    setValue(name, file);
     setPreview(urlImage);
     setActive && setActive(true);
     event.target.value = "";
