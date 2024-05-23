@@ -1,20 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import cn from "classnames";
+import { useRouter } from "next/router";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { FormField, UIButton } from "@/components";
+import { FormField, Icon, UIButton } from "@/components";
 import { useProfileContext } from "@/context";
 import { IconEnum } from "@/types";
+import { logout } from "@/lib";
 
 import { userSchema, UserSchemaType } from "./UserForm.schema";
 import styles from "./UserForm.module.scss";
 
 const UserForm: FC = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const { user } = useProfileContext();
+  const { user, setUser } = useProfileContext();
+  const router = useRouter();
 
   const methods = useForm<UserSchemaType>({
     mode: "all",
@@ -28,6 +31,12 @@ const UserForm: FC = () => {
 
   const onHandleCrossClick = () => {
     setIsEditing(!isEditing);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setUser(null);
+    router.refresh();
   };
 
   return (
@@ -81,6 +90,26 @@ const UserForm: FC = () => {
             placeholder="Kyiv"
             disabled={!isEditing}
           />
+          <div className={buttonsClassName}>
+            {isEditing ? (
+              <UIButton
+                color="secondary"
+                variant="contained"
+                fullWidth
+                type="submit"
+              >
+                Save
+              </UIButton>
+            ) : (
+              <button
+                className={styles["custom-btn"]}
+                type="button"
+                onClick={handleLogout}
+              >
+                <Icon size={24} icon={IconEnum.LOGOUT} /> <span>Log Out</span>
+              </button>
+            )}
+          </div>
         </div>
       </form>
     </FormProvider>
