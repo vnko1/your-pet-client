@@ -3,7 +3,7 @@
 import React, { FC, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import cn from "classnames";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormField, Icon, UIButton } from "@/components";
