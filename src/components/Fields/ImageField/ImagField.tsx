@@ -26,9 +26,11 @@ const ImagField: FC<ImageFieldProps> = ({
   const handleUploadedFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.length) return;
     const file = event.target.files[0];
-    const urlImage = URL.createObjectURL(file);
     setFile(file);
+
+    const urlImage = URL.createObjectURL(file);
     setPreview(urlImage);
+
     setActive && setActive(true);
     event.target.value = "";
   };

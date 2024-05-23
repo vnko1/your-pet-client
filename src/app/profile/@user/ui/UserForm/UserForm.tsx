@@ -27,8 +27,7 @@ const UserForm: FC = () => {
     values: user || undefined,
   });
 
-  const { handleSubmit, setValue, formState } = methods;
-  console.log("🚀 ~ formState:", formState.errors);
+  const { handleSubmit, setValue } = methods;
 
   const buttonsClassName = cn(styles["form__buttons"], {
     [styles["edit"]]: isEditing,
