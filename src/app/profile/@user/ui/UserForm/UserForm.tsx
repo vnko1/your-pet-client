@@ -1,12 +1,12 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import cn from "classnames";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { FormField, Icon, UIButton } from "@/components";
+import { FormField, Icon, ImageField, UIButton } from "@/components";
 import { useProfileContext } from "@/context";
 import { IconEnum } from "@/types";
 
@@ -16,6 +16,8 @@ import styles from "./UserForm.module.scss";
 const UserForm: FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { user, handleLogout } = useProfileContext();
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
+  const [preview, setPreview] = useState(user?.avatarUrl || "");
 
   const methods = useForm<UserSchemaType>({
     mode: "all",
@@ -42,6 +44,20 @@ const UserForm: FC = () => {
             onClick={onHandleCrossClick}
             icon={!isEditing ? IconEnum.EDIT : IconEnum.CROSS}
           />
+        </div>
+        <div className={styles["form__image"]}>
+          <div className={styles["thumb"]}>
+            <ImageField
+              name="file"
+              inputRef={imageInputRef}
+              preview={preview}
+              setPreview={setPreview}
+              width={182}
+              height={182}
+              disabled={!isEditing}
+              alt="user avatar"
+            />
+          </div>
         </div>
         <div className={styles["form__content"]}>
           <FormField

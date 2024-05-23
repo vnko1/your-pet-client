@@ -4,4 +4,4 @@ export { default as Icon } from "./Icon/Icon";
 export { default as UIButton } from "./UIButton/UIButton";
 export { default as Pagination } from "./Pagination/Pagination";
 
-export { SearchField, FormField } from "./Fields";
+export { SearchField, FormField, ImageField } from "./Fields";
