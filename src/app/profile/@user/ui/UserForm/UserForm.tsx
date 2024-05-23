@@ -3,9 +3,10 @@
 import React, { FC, useRef, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import cn from "classnames";
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isAxiosError } from "axios";
 
+import { updateUser } from "@/lib";
 import { FormField, Icon, ImageField, UIButton } from "@/components";
 import { useProfileContext } from "@/context";
 import { IconEnum } from "@/types";
@@ -14,7 +15,8 @@ import { userSchema, UserSchemaType } from "./UserForm.schema";
 import styles from "./UserForm.module.scss";
 
 const UserForm: FC = () => {
-  const { user, handleLogout } = useProfileContext();
+  const { user, setUser, handleLogout } = useProfileContext();
+
   const [isEditing, setIsEditing] = useState(false);
   const [active, setActive] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -24,10 +26,15 @@ const UserForm: FC = () => {
   const methods = useForm<UserSchemaType>({
     mode: "onSubmit",
     resolver: zodResolver(userSchema),
-    values: user || undefined,
+    values: {
+      ...user,
+      birthday: new Date(user?.birthday || Date.now()).toLocaleDateString(
+        "en-GB"
+      ),
+    },
   });
 
-  const { handleSubmit, setValue } = methods;
+  const { handleSubmit, setValue, setError } = methods;
 
   const buttonsClassName = cn(styles["form__buttons"], {
     [styles["edit"]]: isEditing,
@@ -38,10 +45,21 @@ const UserForm: FC = () => {
   };
 
   const submit: SubmitHandler<UserSchemaType> = async (data) => {
-    console.log(
-      "🚀 ~ constsubmit:SubmitHandler<UserSchemaType>= ~ data:",
-      data
-    );
+    const formData = new FormData();
+    Object.keys(data).forEach((key: string) => {
+      if (data[key as keyof UserSchemaType])
+        formData.append(key, data[key as keyof UserSchemaType]);
+    });
+    try {
+      const res = await updateUser(formData);
+      setUser(res.data);
+    } catch (error) {
+      if (isAxiosError(error))
+        setError("root.serverError", {
+          type: "custom",
+          message: error.response?.data.errorMessage,
+        });
+    }
   };
 
   const renderImageButtons = !active ? (
@@ -155,14 +173,21 @@ const UserForm: FC = () => {
           />
           <div className={buttonsClassName}>
             {isEditing ? (
-              <UIButton
-                color="secondary"
-                variant="contained"
-                fullWidth
-                type="submit"
-              >
-                Save
-              </UIButton>
+              <>
+                <UIButton
+                  color="secondary"
+                  variant="contained"
+                  fullWidth
+                  type="submit"
+                >
+                  Save
+                </UIButton>
+                {methods.formState.errors.root?.serverError ? (
+                  <p className={styles["error"]}>
+                    {methods.formState.errors.root?.serverError.message}
+                  </p>
+                ) : null}
+              </>
             ) : (
               <button
                 className={styles["custom-btn"]}

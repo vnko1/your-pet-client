@@ -59,3 +59,7 @@
     @apply text-red hover:text-blue;
   }
 }
+
+.error {
+  @apply text-xxs text-red text-center;
+}

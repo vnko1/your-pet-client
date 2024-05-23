@@ -5,5 +5,5 @@ export type User = {
   _id: string;
   birthday?: Date;
   city?: string;
-  phone?:string
+  phone?: string;
 };
