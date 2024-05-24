@@ -1,7 +1,8 @@
+import Link from "next/link";
 import React from "react";
 
 function PetsPage() {
-  return <div>PetsPage</div>;
+  return <Link href={"/add/category"}>Add pet</Link>;
 }
 
 export default PetsPage;
