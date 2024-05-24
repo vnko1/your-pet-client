@@ -21,6 +21,7 @@ const UserForm: FC = () => {
   const [active, setActive] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
 
   const methods = useForm<UserSchemaType>({
@@ -45,6 +46,7 @@ const UserForm: FC = () => {
   };
 
   const submit: SubmitHandler<UserSchemaType> = async (data) => {
+    setIsLoading(true);
     const formData = new FormData();
     Object.keys(data).forEach((key: string) => {
       if (data[key as keyof UserSchemaType])
@@ -59,6 +61,8 @@ const UserForm: FC = () => {
           type: "custom",
           message: error.response?.data.errorMessage,
         });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -179,6 +183,7 @@ const UserForm: FC = () => {
                   variant="contained"
                   fullWidth
                   type="submit"
+                  isLoading={isLoading}
                 >
                   Save
                 </UIButton>
