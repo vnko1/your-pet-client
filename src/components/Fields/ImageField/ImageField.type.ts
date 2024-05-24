@@ -1,3 +1,5 @@
+import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
+import { StaticImageData } from "next/image";
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
 
 export type ImageFieldProps = {
@@ -8,10 +10,11 @@ export type ImageFieldProps = {
   width?: number;
   height?: number;
   alt?: string;
-  preview?: string | null;
+  preview?: StaticImageData | string | null;
   setActive?: Dispatch<SetStateAction<boolean>>;
   classNames?: string;
   imageClassNames?: string;
   disabled?: boolean;
-  imageThumb?: boolean;
+  placeholder?: PlaceholderValue;
+  blurDataURL?: string;
 };

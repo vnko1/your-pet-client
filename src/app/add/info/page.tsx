@@ -8,6 +8,8 @@ import { FormField, ImageField, RadioField, TextAreaField } from "@/components";
 
 import styles from "./info.module.scss";
 
+import addImage from "@/assets/images/add.png";
+
 const fields = [
   {
     name: "location",
@@ -80,12 +82,24 @@ function InfoPage() {
       ) : null}
       <div className={styles["image"]}>
         <p className={styles["image__title"]}>Add photo</p>
-        <ImageField
-          name="file"
-          setFile={setFile}
-          setPreview={setPreview}
-          inputRef={inputRef}
-        />
+
+        <button
+          type="button"
+          className="bg-transparent"
+          onClick={() => inputRef.current?.click()}
+        >
+          <ImageField
+            name="file"
+            setFile={setFile}
+            setPreview={setPreview}
+            preview={preview || addImage}
+            inputRef={inputRef}
+            width={182}
+            height={182}
+            alt="pet photo"
+            classNames={styles["image__input"]}
+          />
+        </button>
       </div>
       {filteredFields.map(({ name, label, placeholder, isTextArea }) => {
         if (isTextArea)

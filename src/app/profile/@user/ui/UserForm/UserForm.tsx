@@ -14,6 +14,8 @@ import { IconEnum } from "@/types";
 import { userSchema, UserSchemaType } from "./UserForm.schema";
 import styles from "./UserForm.module.scss";
 
+import { imagePlaceHolder } from "@/utils";
+
 const UserForm: FC = () => {
   const { user, setUser, handleLogout } = useProfileContext();
 
@@ -132,7 +134,8 @@ const UserForm: FC = () => {
               width={182}
               height={182}
               alt="user avatar"
-              imageThumb
+              placeholder="blur"
+              blurDataURL={imagePlaceHolder}
             />
           </div>
           {isEditing ? renderImageButtons : null}

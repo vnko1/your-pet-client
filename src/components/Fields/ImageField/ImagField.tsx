@@ -5,7 +5,6 @@ import { useFormContext } from "react-hook-form";
 
 import { ImageFieldProps } from "./ImageField.type";
 import styles from "./ImageField.module.scss";
-import { imagePlaceHolder } from "@/utils";
 
 const ImagField: FC<ImageFieldProps> = ({
   setPreview,
@@ -19,19 +18,21 @@ const ImagField: FC<ImageFieldProps> = ({
   alt = "",
   classNames,
   imageClassNames,
-  imageThumb = false,
+  blurDataURL,
+  placeholder,
   disabled,
 }) => {
   const { register } = useFormContext();
   const { ref: registerRef, ...rest } = register(name);
+
   const handleUploadedFile = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log(1);
     if (!event.target.files?.length) return;
     const file = event.target.files[0];
     setFile(file);
 
     const urlImage = URL.createObjectURL(file);
     setPreview(urlImage);
-
     setActive && setActive(true);
     event.target.value = "";
   };
@@ -51,17 +52,15 @@ const ImagField: FC<ImageFieldProps> = ({
         aria-label="Image upload field"
         disabled={disabled}
       />
-      {imageThumb && (
-        <Image
-          className={imageClassNames}
-          width={width}
-          height={height}
-          alt={alt}
-          src={preview || imagePlaceHolder}
-          placeholder="blur"
-          blurDataURL={imagePlaceHolder}
-        />
-      )}
+      <Image
+        className={imageClassNames}
+        width={width}
+        height={height}
+        alt={alt}
+        src={preview || blurDataURL || ""}
+        placeholder={placeholder}
+        blurDataURL={blurDataURL}
+      />
     </div>
   );
 };
