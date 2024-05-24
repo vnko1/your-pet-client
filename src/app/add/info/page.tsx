@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { useWatch } from "react-hook-form";
+import React, { useEffect, useRef, useState } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 
 import { IconEnum } from "@/types";
 import { FormField, ImageField, RadioField, TextAreaField } from "@/components";
@@ -48,6 +48,7 @@ const forSellFields = [
 
 function InfoPage() {
   const watch = useWatch();
+  const { setValue } = useFormContext();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -58,6 +59,10 @@ function InfoPage() {
   const filteredFields = isForSell
     ? forSellFields
     : fields.slice(isYourPet ? 1 : 0);
+
+  useEffect(() => {
+    setValue("file", file);
+  }, [file, setValue]);
 
   return (
     <div className={styles["info"]}>
