@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from "react";
 
 import { PetTypes } from "@/types";
 import Pet from "../Pet/Pet";
-import styles from "./pets.module.scss";
+import styles from "./Pets.module.scss";
 import { getPets } from "@/lib";
 
 const Pets: FC = () => {
