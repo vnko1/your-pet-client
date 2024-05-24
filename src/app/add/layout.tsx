@@ -1,7 +1,7 @@
 "use client";
 import React, { ReactNode, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import cn from "classnames";
 
@@ -37,6 +37,10 @@ function AddPetLayout({ children }: { children: ReactNode }) {
     router.back();
   };
 
+  const onHandleSubmit: SubmitHandler<AddPetType> = async (data) => {
+    console.log("🚀 ~ AddPetLayout ~ data:", data);
+  };
+
   const baseClassNames = cn("wrapper", styles["add-pet"]);
   return (
     <div className={baseClassNames}>
@@ -47,7 +51,7 @@ function AddPetLayout({ children }: { children: ReactNode }) {
       <FormProvider {...methods}>
         <form
           className={styles["form"]}
-          //   onSubmit={methods.handleSubmit(onHandleSubmit)}
+          onSubmit={methods.handleSubmit(onHandleSubmit)}
         >
           <div className={styles["fields"]}>{children}</div>
           <div className={styles["buttons"]}>
@@ -61,11 +65,11 @@ function AddPetLayout({ children }: { children: ReactNode }) {
               isLoading={
                 pathName === LinksEnum.ADD_PET_INFO ? isLoading : false
               }
-              disabled={
-                pathName === LinksEnum.ADD_PET_INFO
-                  ? !methods.formState.isValid
-                  : false
-              }
+              // disabled={
+              //   pathName === LinksEnum.ADD_PET_INFO
+              //     ? !methods.formState.isValid
+              //     : false
+              // }
             >
               {pathName === LinksEnum.ADD_PET_INFO ? "Done" : "Next"}
             </UIButton>
