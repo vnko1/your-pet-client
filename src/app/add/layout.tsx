@@ -1,7 +1,7 @@
 "use client";
 import React, { ReactNode, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import cn from "classnames";
 
@@ -16,7 +16,7 @@ import styles from "./add.module.scss";
 function AddPetLayout({ children }: { children: ReactNode }) {
   const pathName = usePathname();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   const methods = useForm<AddPetType>({
     resolver: zodResolver(addPetSchema),
