@@ -5,7 +5,6 @@ import { useFormContext } from "react-hook-form";
 
 import { ImageFieldProps } from "./ImageField.type";
 import styles from "./ImageField.module.scss";
-import { imagePlaceHolder } from "@/utils";
 
 const ImagField: FC<ImageFieldProps> = ({
   setPreview,
@@ -16,13 +15,16 @@ const ImagField: FC<ImageFieldProps> = ({
   preview,
   width,
   height,
-  alt,
+  alt = "",
   classNames,
   imageClassNames,
+  blurDataURL,
+  placeholder,
   disabled,
 }) => {
   const { register } = useFormContext();
   const { ref: registerRef, ...rest } = register(name);
+
   const handleUploadedFile = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.length) return;
     const file = event.target.files[0];
@@ -30,7 +32,6 @@ const ImagField: FC<ImageFieldProps> = ({
 
     const urlImage = URL.createObjectURL(file);
     setPreview(urlImage);
-
     setActive && setActive(true);
     event.target.value = "";
   };
@@ -55,9 +56,9 @@ const ImagField: FC<ImageFieldProps> = ({
         width={width}
         height={height}
         alt={alt}
-        src={preview || imagePlaceHolder}
-        placeholder="blur"
-        blurDataURL={imagePlaceHolder}
+        src={preview || blurDataURL || ""}
+        placeholder={placeholder}
+        blurDataURL={blurDataURL}
       />
     </div>
   );

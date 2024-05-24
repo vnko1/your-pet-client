@@ -24,8 +24,11 @@ export async function middleware(req: NextRequest) {
 
   if (currentPath.startsWith("/profile") && !isLoggedIn)
     return NextResponse.rewrite(new URL("/login", req.url));
+
+  if (currentPath.startsWith("/add") && !isLoggedIn)
+    return NextResponse.rewrite(new URL("/login", req.url));
 }
 
 export const config = {
-  matcher: ["/login", "/register", "/profile"],
+  matcher: ["/login", "/register", "/profile", "/add/:path*"],
 };
