@@ -65,11 +65,6 @@ function AddPetLayout({ children }: { children: ReactNode }) {
               isLoading={
                 pathName === LinksEnum.ADD_PET_INFO ? isLoading : false
               }
-              // disabled={
-              //   pathName === LinksEnum.ADD_PET_INFO
-              //     ? !methods.formState.isValid
-              //     : false
-              // }
             >
               {pathName === LinksEnum.ADD_PET_INFO ? "Done" : "Next"}
             </UIButton>
