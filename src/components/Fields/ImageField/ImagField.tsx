@@ -26,7 +26,6 @@ const ImagField: FC<ImageFieldProps> = ({
   const { ref: registerRef, ...rest } = register(name);
 
   const handleUploadedFile = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(1);
     if (!event.target.files?.length) return;
     const file = event.target.files[0];
     setFile(file);
