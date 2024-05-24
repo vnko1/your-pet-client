@@ -132,6 +132,7 @@ const UserForm: FC = () => {
               width={182}
               height={182}
               alt="user avatar"
+              imageThumb
             />
           </div>
           {isEditing ? renderImageButtons : null}

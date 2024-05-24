@@ -16,9 +16,10 @@ const ImagField: FC<ImageFieldProps> = ({
   preview,
   width,
   height,
-  alt,
+  alt = "",
   classNames,
   imageClassNames,
+  imageThumb = false,
   disabled,
 }) => {
   const { register } = useFormContext();
@@ -50,15 +51,17 @@ const ImagField: FC<ImageFieldProps> = ({
         aria-label="Image upload field"
         disabled={disabled}
       />
-      <Image
-        className={imageClassNames}
-        width={width}
-        height={height}
-        alt={alt}
-        src={preview || imagePlaceHolder}
-        placeholder="blur"
-        blurDataURL={imagePlaceHolder}
-      />
+      {imageThumb && (
+        <Image
+          className={imageClassNames}
+          width={width}
+          height={height}
+          alt={alt}
+          src={preview || imagePlaceHolder}
+          placeholder="blur"
+          blurDataURL={imagePlaceHolder}
+        />
+      )}
     </div>
   );
 };
