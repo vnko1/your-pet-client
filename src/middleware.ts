@@ -2,7 +2,6 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
 import { sessionOptions } from "./services";
-import { LinksEnum } from "./types";
 
 interface SessionData {
   access_token: string | null;
@@ -31,10 +30,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    LinksEnum.LOGIN,
-    LinksEnum.REGISTER,
-    LinksEnum.USER,
-    LinksEnum.ADD_PET + "/:path*",
-  ],
+  matcher: ["/login", "/register", "/profile", "/add", "/add/:path*"],
 };
