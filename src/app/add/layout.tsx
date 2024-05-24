@@ -12,6 +12,8 @@ import { NavBar } from "./ui";
 import { getUrl } from "./utils";
 import { addPetSchema, AddPetType } from "./addPet.schema";
 import styles from "./add.module.scss";
+import { isAxiosError } from "axios";
+import { addNotice, addPet } from "@/lib";
 
 function AddPetLayout({ children }: { children: ReactNode }) {
   const pathName = usePathname();
@@ -38,10 +40,32 @@ function AddPetLayout({ children }: { children: ReactNode }) {
   };
 
   const onHandleSubmit: SubmitHandler<AddPetType> = async (data) => {
-    console.log("🚀 ~ AddPetLayout ~ data:", data);
+    const formData = new FormData();
+    Object.keys(data).forEach((key: string) => {
+      if (data[key as keyof AddPetType])
+        formData.append(key, data[key as keyof AddPetType]);
+    });
+
+    try {
+      data.category === "your-pet"
+        ? await addPet(formData)
+        : await addNotice(formData);
+
+      router.push(
+        data.category === "your-pet" ? LinksEnum.USER : LinksEnum.HOME
+      );
+      router.refresh();
+    } catch (error) {
+      if (isAxiosError(error))
+        methods.setError("root.serverError", {
+          type: "custom",
+          message: error.response?.data.errorMessage,
+        });
+    }
   };
 
   const baseClassNames = cn("wrapper", styles["add-pet"]);
+
   return (
     <div className={baseClassNames}>
       <div className={styles["head"]}>
