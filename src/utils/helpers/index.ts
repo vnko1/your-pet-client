@@ -1,3 +1,5 @@
+import { NoticeCategory } from "@/types";
+
 export const JSONParser = <T>(data: T): T => JSON.parse(JSON.stringify(data));
 
 export const blobToBase64 = (blob: Blob): Promise<string> => {
@@ -16,3 +18,14 @@ export const blobToBase64 = (blob: Blob): Promise<string> => {
     reader.readAsDataURL(blob);
   });
 };
+
+export function getCategory(category: NoticeCategory) {
+  switch (category) {
+    case "sell":
+      return "Sell";
+    case "in-good-hands":
+      return "In good hands";
+    case "lost-found":
+      return "lost/found";
+  }
+}

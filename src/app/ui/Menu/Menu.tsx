@@ -16,7 +16,6 @@ const Menu: FC<IMenu> = ({ links, pathName, user, ...props }) => {
       transitionClassNames={styles["active"]}
       enableSwipeUpToScreen={1279}
       enableSwipe
-      disableScroll
     >
       <div className={styles["menu__auth"]}>
         <Buttons user={user} />

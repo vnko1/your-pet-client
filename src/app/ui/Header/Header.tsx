@@ -13,12 +13,12 @@ import { useProfileContext } from "@/context";
 
 const links = [
   { label: "News", href: LinksEnum.NEWS },
-  { label: "Find pet", href: LinksEnum.NOTICES },
+  { label: "Find pet", href: LinksEnum.NOTICES_SELL },
   { label: "Our friends", href: LinksEnum.FRIENDS },
 ];
 
 const Header: FC = () => {
-  const modalProps = useModal();
+  const modalProps = useModal(undefined, true);
   const pathName = usePathname();
   const { user } = useProfileContext();
 

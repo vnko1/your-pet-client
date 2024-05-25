@@ -18,7 +18,6 @@ const Modal: FC<ModalProps> = ({
   backdropClassNames,
   transitionClassNames,
   swipe = "right",
-  disableScroll = false,
   renderCrossButton = false,
   setVisible,
   close,
@@ -27,15 +26,8 @@ const Modal: FC<ModalProps> = ({
   useSwipe({ [swipe]: close, ...props });
 
   useEffect(() => {
-    if (active) {
-      setVisible(true);
-      disableScroll && document.body.classList.add(styles["no-scroll"]);
-    }
-
-    return () => {
-      document.body.classList.remove(styles["no-scroll"]);
-    };
-  }, [active, disableScroll, setVisible]);
+    if (active) setVisible(true);
+  }, [active, setVisible]);
 
   useEffect(() => {
     const handlePressESC = (event: { code: string }) => {
