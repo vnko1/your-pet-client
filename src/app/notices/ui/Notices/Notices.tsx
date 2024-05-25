@@ -5,17 +5,17 @@ import { useProfileContext } from "@/context";
 
 import { Notice } from "..";
 
-import styles from "./Notices.module.scss";
 import { NoticesProps } from "./Notices.type";
+import styles from "./Notices.module.scss";
 
-const Notices: FC<NoticesProps> = ({ notices }) => {
+const Notices: FC<NoticesProps> = ({ notices, setNotices }) => {
   const { user } = useProfileContext();
 
   return (
     <ul className={styles["notices"]}>
       {notices.map((notice) => (
         <li key={notice._id.toString()}>
-          <Notice {...notice} userId={user?._id} />
+          <Notice {...notice} userId={user?._id} setNotices={setNotices} />
         </li>
       ))}
     </ul>

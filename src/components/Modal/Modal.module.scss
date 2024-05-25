@@ -7,7 +7,7 @@
 }
 
 .modal {
-  @apply relative flex flex-col justify-center transition-all duration-300 text-center;
+  @apply relative flex flex-col justify-center transition-all duration-300 text-center bg-originWhite rounded-[20px] w-full  max-w-[280px]  md:max-w-[608px] shadow-sm;
 }
 
 .button-wrapper {

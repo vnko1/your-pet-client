@@ -1,6 +1,6 @@
 "use client";
 import React, { FC, useEffect, useState } from "react";
-// import { usePathname } from "next/navigation";
+
 import Image from "next/image";
 import cn from "classnames";
 
@@ -13,6 +13,12 @@ import { AdvModal, Pet } from "..";
 
 import { NoticeProps } from "./Notice.type";
 import styles from "./Notice.module.scss";
+import {
+  addToFavorite,
+  deleteNotice,
+  getNotice,
+  removeFromFavorite,
+} from "@/lib";
 
 const Notice: FC<NoticeProps> = ({
   _id,
@@ -24,39 +30,48 @@ const Notice: FC<NoticeProps> = ({
   favorites,
   sex,
   owner,
+  setNotices,
 }) => {
   const advModal = useModal();
   const petModal = useModal();
   const deleteModal = useModal();
 
-  const [petIsLoading, setPetOsLoading] = useState(false);
-  const [petCard] = useState<NoticesTypes | null>(null);
+  const [petIsLoading, setPetIsLoading] = useState(false);
+  const [petCard, setPetCard] = useState<NoticesTypes | null>(null);
+  const [favList, setFavList] = useState<string[]>(favorites);
   const [isFavorite, setIsFavorite] = useState(
     favorites.some((item) => item.toString() === userId)
   );
 
-  //   const pathName = usePathname();
+  useEffect(() => {
+    setIsFavorite(favList.some((item) => item.toString() === userId));
+  }, [favList, userId]);
 
   const openPetModal = async () => {
     try {
-      setPetOsLoading(true);
-      //   const pet = await getNotice(_id.toString());
-      _id;
-      //   setPetCard(pet as NoticesTypes);
+      setPetIsLoading(true);
+      const res = await getNotice(_id);
+
+      setPetCard(res.data);
       petModal.setActive(true);
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message);
     } finally {
-      setPetOsLoading(false);
+      setPetIsLoading(false);
     }
   };
 
   useEffect(() => {
-    setIsFavorite(favorites.some((item) => item.toString() === userId));
-  }, [favorites, userId]);
+    setIsFavorite(favList.some((item) => item.toString() === userId));
+  }, [favList, userId]);
 
   const onDelete = async () => {
-    // await deleteNotice(_id.toString());
+    try {
+      await deleteNotice(_id);
+      setNotices((notices) => notices.filter((notice) => notice._id !== _id));
+    } catch (error) {
+      console.log(error);
+    }
   };
   const onTrashClick = () => {
     deleteModal.setActive(true);
@@ -67,8 +82,15 @@ const Notice: FC<NoticeProps> = ({
 
   const onHandleFavoriteClick = async () => {
     if (!userId) return advModal.setActive(true);
-    // if (isFavorite) await removeFromFavorite(_id.toString(), pathName);
-    // else await addToFavorite(_id.toString(), pathName);
+
+    try {
+      const res = isFavorite
+        ? await removeFromFavorite(_id)
+        : await addToFavorite(_id);
+      setFavList(res.data.favorites);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const favoriteClassNames = cn(
@@ -152,7 +174,14 @@ const Notice: FC<NoticeProps> = ({
         </div>
       </Modal>
       <Modal classNames={styles["pet-modal"]} {...petModal}>
-        <Pet pet={petCard as NoticesTypes} userId={userId} />
+        <Pet
+          pet={petCard as NoticesTypes}
+          userId={userId}
+          setFavList={setFavList}
+          setIsFavorite={setIsFavorite}
+          favList={favList}
+          isFavorite={isFavorite}
+        />
       </Modal>
       <AdvModal {...advModal} />
     </div>

@@ -1,12 +1,12 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import React, { FC, useEffect } from "react";
 import Image from "next/image";
 
 import { UIButton } from "@/components";
 import { IconEnum } from "@/types";
 import { useModal } from "@/hooks";
 import { getCategory } from "@/utils";
+import { addToFavorite, removeFromFavorite } from "@/lib";
 
 import AdvModal from "../AdvModal/AdvModal";
 
@@ -14,6 +14,10 @@ import { PetProps } from "./Pet.type";
 import styles from "./Pet.module.scss";
 
 const Pet: FC<PetProps> = ({
+  setFavList,
+  setIsFavorite,
+  favList,
+  isFavorite,
   userId,
   pet: {
     _id,
@@ -25,32 +29,26 @@ const Pet: FC<PetProps> = ({
     location,
     sex,
     price,
-    favorites,
     owner: { email, phone },
     comment,
   },
 }) => {
   const modalProps = useModal();
-  const [isFavorite, setIsFavorite] = useState(
-    favorites.some((item) => item.toString() === userId)
-  );
-  const pathName = usePathname();
 
   useEffect(() => {
-    setIsFavorite(favorites.some((item) => item.toString() === userId));
-  }, [favorites, userId]);
+    setIsFavorite(favList.some((item) => item.toString() === userId));
+  }, [favList, setIsFavorite, userId]);
 
   const onHandleFavoriteClick = async () => {
     if (!userId) return modalProps.setActive(true);
-    _id;
-    pathName;
-    // if (isFavorite) {
-    //   const res = await removeFromFavorite(_id.toString(), pathName);
-    //   setIsFavorite(res.some((item) => item.toString() === userId));
-    // } else {
-    //   const res = await addToFavorite(_id.toString(), pathName);
-    //   setIsFavorite(res.some((item) => item.toString() === userId));
-    // }
+    try {
+      const res = isFavorite
+        ? await removeFromFavorite(_id)
+        : await addToFavorite(_id);
+      setFavList(res.data.favorites);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

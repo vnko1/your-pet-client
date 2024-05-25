@@ -6,6 +6,9 @@ export enum EndpointsEnum {
   Refresh = "/auth/refresh",
   Profile = "/profile",
   Logout = "/auth/logout",
-  Notices = "/notices",
+
   Pets = "/pets",
+  Notices = "/notices",
+  Notice = Notices + "/notice",
+  Favorites = Notices + "/favorites",
 }
