@@ -26,9 +26,7 @@ const Modal: FC<ModalProps> = ({
   useSwipe({ [swipe]: close, ...props });
 
   useEffect(() => {
-    if (active) {
-      setVisible(true);
-    }
+    if (active) setVisible(true);
   }, [active, setVisible]);
 
   useEffect(() => {
