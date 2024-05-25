@@ -1,16 +1,16 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 
 import { useProfileContext } from "@/context";
-import { NoticesTypes } from "@/types";
 
 import { Notice } from "..";
 
 import styles from "./Notices.module.scss";
+import { NoticesProps } from "./Notices.type";
 
-const Notices: FC = () => {
+const Notices: FC<NoticesProps> = ({ notices }) => {
   const { user } = useProfileContext();
-  const [notices] = useState<Array<NoticesTypes>>([]);
+
   return (
     <ul className={styles["notices"]}>
       {notices.map((notice) => (
