@@ -5,12 +5,13 @@ import Image from "next/image";
 
 import { UIButton } from "@/components";
 import { IconEnum } from "@/types";
+import { useModal } from "@/hooks";
+import { getCategory } from "@/utils";
 
-import { getCategory } from "./utils";
+import AdvModal from "../AdvModal/AdvModal";
+
 import { PetProps } from "./Pet.type";
 import styles from "./Pet.module.scss";
-import AdvModal from "../AdvModal/AdvModal";
-import { useModal } from "@/hooks";
 
 const Pet: FC<PetProps> = ({
   userId,
