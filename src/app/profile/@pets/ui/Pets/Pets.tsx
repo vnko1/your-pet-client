@@ -1,5 +1,6 @@
 "usc client";
 import React, { FC, useEffect, useState } from "react";
+import { isAxiosError } from "axios";
 
 import { PetTypes } from "@/types";
 import Pet from "../Pet/Pet";
@@ -15,7 +16,7 @@ const Pets: FC = () => {
         setPets(res.data);
       })
       .catch((error) => {
-        console.log(error);
+        if (isAxiosError(error)) throw new Error(error.message);
       });
   }, []);
 

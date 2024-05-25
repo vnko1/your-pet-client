@@ -1,6 +1,7 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { isAxiosError } from "axios";
 
 import { NOTICES_LIMIT, NoticesTypes } from "@/types";
 import { Pagination } from "@/components";
@@ -9,7 +10,7 @@ import { getFavoriteNotices } from "@/lib";
 import { Notices } from "../ui";
 import styles from "@/app/notices/notices.module.scss";
 
-function LostFoundPage() {
+function FavoritesPage() {
   const searchParams = useSearchParams();
   const [notices, setNotices] = useState<NoticesTypes[]>([]);
   const [totals, setTotals] = useState(0);
@@ -26,7 +27,9 @@ function LostFoundPage() {
           setNotices(res.data.data);
           setTotals(res.data.total);
         })
-        .catch((error) => console.log(error)),
+        .catch((error) => {
+          if (isAxiosError(error)) throw new Error(error.message);
+        }),
     [searchParams]
   );
 
@@ -48,4 +51,4 @@ function LostFoundPage() {
   );
 }
 
-export default LostFoundPage;
+export default FavoritesPage;

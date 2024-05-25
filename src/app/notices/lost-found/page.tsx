@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { isAxiosError } from "axios";
 
 import { NOTICES_LIMIT, NoticesTypes } from "@/types";
 import { Pagination } from "@/components";
@@ -26,7 +27,9 @@ function LostFoundPage() {
         setNotices(res.data.data);
         setTotals(res.data.total);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        if (isAxiosError(error)) throw new Error(error.message);
+      });
   }, [searchParams]);
 
   return (

@@ -5,19 +5,18 @@ import { isAxiosError } from "axios";
 
 import { NOTICES_LIMIT, NoticesTypes } from "@/types";
 import { Pagination } from "@/components";
-import { getNotices } from "@/lib";
+import { getOwnNotices } from "@/lib";
 
 import { Notices } from "../ui";
 import styles from "@/app/notices/notices.module.scss";
 
-function InGoodHandsPage() {
+function OwnPage() {
   const searchParams = useSearchParams();
   const [notices, setNotices] = useState<NoticesTypes[]>([]);
   const [totals, setTotals] = useState(0);
 
   useEffect(() => {
-    getNotices({
-      category: "in-good-hands",
+    getOwnNotices({
       page: searchParams.get("page"),
       query: searchParams.get("query"),
       age: searchParams.get("age"),
@@ -42,4 +41,4 @@ function InGoodHandsPage() {
   );
 }
 
-export default InGoodHandsPage;
+export default OwnPage;

@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { isAxiosError } from "axios";
 import { useSearchParams } from "next/navigation";
 
 import { NOTICES_LIMIT, NoticesTypes } from "@/types";
@@ -26,7 +27,9 @@ function SellPage() {
         setNotices(res.data.data);
         setTotals(res.data.total);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        if (isAxiosError(error)) throw new Error(error.message);
+      });
   }, [searchParams]);
 
   return (
