@@ -4,7 +4,8 @@ import { QueryParams } from "@/types";
 import { Pagination } from "@/components";
 import { getArticles } from "@/lib";
 
-import { Articles, Search } from "./ui";
+import { Search } from "../ui";
+import { Articles } from "./ui";
 import styles from "./news.module.scss";
 
 async function Page({ searchParams }: { searchParams?: QueryParams }) {
