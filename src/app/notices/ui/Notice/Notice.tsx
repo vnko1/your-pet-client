@@ -32,9 +32,9 @@ const Notice: FC<NoticeProps> = ({
   owner,
   setNotices,
 }) => {
-  const advModal = useModal();
-  const petModal = useModal();
-  const deleteModal = useModal();
+  const advModal = useModal(undefined, true);
+  const petModal = useModal(undefined, true);
+  const deleteModal = useModal(undefined, true);
 
   const [petIsLoading, setPetIsLoading] = useState(false);
   const [petCard, setPetCard] = useState<NoticesTypes | null>(null);

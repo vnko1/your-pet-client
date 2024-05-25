@@ -9,7 +9,6 @@ export type ModalProps = {
   children: ReactNode;
   backdropClassNames?: string;
   classNames?: string;
-  disableScroll?: boolean;
   transitionClassNames?: string;
   swipe?: "left" | "right";
   renderCrossButton?: boolean;

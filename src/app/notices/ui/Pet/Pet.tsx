@@ -33,7 +33,7 @@ const Pet: FC<PetProps> = ({
     comment,
   },
 }) => {
-  const modalProps = useModal();
+  const modalProps = useModal(undefined, true);
 
   useEffect(() => {
     setIsFavorite(favList.some((item) => item.toString() === userId));

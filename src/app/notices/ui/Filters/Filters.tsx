@@ -16,7 +16,7 @@ import styles from "./Filters.module.scss";
 
 const Filters: FC = () => {
   const { user } = useProfileContext();
-  const advModal = useModal();
+  const advModal = useModal(undefined, true);
   const { push } = useRouter();
   const [screenSize] = useGetScreenSize();
 

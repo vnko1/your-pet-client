@@ -18,7 +18,7 @@ const links = [
 ];
 
 const Header: FC = () => {
-  const modalProps = useModal();
+  const modalProps = useModal(undefined, true);
   const pathName = usePathname();
   const { user } = useProfileContext();
 
