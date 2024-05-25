@@ -11,4 +11,5 @@ export enum EndpointsEnum {
   Notices = "/notices",
   Notice = Notices + "/notice",
   Favorites = Notices + "/favorites",
+  Owner = Notices + "/owner",
 }

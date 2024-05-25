@@ -16,6 +16,7 @@ import styles from "./Pet.module.scss";
 const Pet: FC<PetProps> = ({
   setFavList,
   setIsFavorite,
+  refetch,
   favList,
   isFavorite,
   userId,
@@ -46,6 +47,7 @@ const Pet: FC<PetProps> = ({
         ? await removeFromFavorite(_id)
         : await addToFavorite(_id);
       setFavList(res.data.favorites);
+      refetch && refetch();
     } catch (error) {
       console.log(error);
     }

@@ -9,4 +9,5 @@ export type PetProps = {
   setFavList: Dispatch<SetStateAction<string[]>>;
   isFavorite: boolean;
   setIsFavorite: Dispatch<SetStateAction<boolean>>;
+  refetch?: () => void;
 };

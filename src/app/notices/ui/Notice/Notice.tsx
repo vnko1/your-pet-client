@@ -1,6 +1,5 @@
 "use client";
 import React, { FC, useEffect, useState } from "react";
-
 import Image from "next/image";
 import cn from "classnames";
 
@@ -30,6 +29,7 @@ const Notice: FC<NoticeProps> = ({
   favorites,
   sex,
   owner,
+  refetch,
   setNotices,
 }) => {
   const advModal = useModal(undefined, true);
@@ -87,7 +87,10 @@ const Notice: FC<NoticeProps> = ({
       const res = isFavorite
         ? await removeFromFavorite(_id)
         : await addToFavorite(_id);
+
       setFavList(res.data.favorites);
+
+      refetch && refetch();
     } catch (error) {
       console.log(error);
     }
@@ -181,6 +184,7 @@ const Notice: FC<NoticeProps> = ({
           setIsFavorite={setIsFavorite}
           favList={favList}
           isFavorite={isFavorite}
+          refetch={refetch}
         />
       </Modal>
       <AdvModal {...advModal} />

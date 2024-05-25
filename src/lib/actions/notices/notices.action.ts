@@ -24,3 +24,13 @@ export async function deleteNotice(id: string) {
 export async function getNotice(id: string) {
   return privateApi(EndpointsEnum.Notice + "/" + id);
 }
+
+export async function getOwnNotices(searchParams: Partial<NoticeQueryParams>) {
+  return await privateApi(EndpointsEnum.Owner, { params: searchParams });
+}
+
+export async function getFavoriteNotices(
+  searchParams: Partial<NoticeQueryParams>
+) {
+  return await privateApi(EndpointsEnum.Favorites, { params: searchParams });
+}
